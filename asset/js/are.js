@@ -1,4 +1,6 @@
-var baseUrl = 'https://omeka.religiousecologies.org/mare/partial/';
+var baseDomain = 'https://omeka.religiousecologies.org';
+var basePath = '/mare/partial/';
+var baseUrl = baseDomain + basePath;
 var denominationFamilyFilterUrl = baseUrl + 'denomination-families-nav';
 var denominationFilterUrl = baseUrl + 'denominations-nav?denomination-family-id=';
 var denominationUrl = baseUrl + 'denomination?denomination-id=';
@@ -53,9 +55,22 @@ var locationSchedulesUrl = baseUrl + 'county-schedules?county-id=';
                 $.get(areSchedulesUrl + filterId, function(data) {
                   var schedules = data;
                   filteredContentContainer.append(schedules);
-                });              
+                })
+                  .done(function() {  
+                    setupScheduleLinks();
+                  });              
             });
 
+        });
+        
+        filteredContentContainer.on('click', '.schedule-list .pagination a', function(e) {
+          e.preventDefault();
+          $.get($(this).attr('href'), function(data) {
+              $('.schedule-list').replaceWith($(data));
+          })
+            .done(function() {
+              setupScheduleLinks();
+            });
         });
 
         var createFilter = function(filterLi,filterId) {
@@ -67,6 +82,14 @@ var locationSchedulesUrl = baseUrl + 'county-schedules?county-id=';
               $('#are-filters li li').addClass('are-filter').wrapInner('<a href="#" class="are-filter-link"></a>');     
             });
         };
+        
+        var setupScheduleLinks = function() {
+          $('.schedule-list .pagination a, a.schedule-link').each(function() {
+            var scheduleLink = $(this);
+            var originalHref = scheduleLink.attr('href');
+            scheduleLink.attr('href', baseDomain + originalHref);
+          });
+        }
       }          
     });
 })(jQuery)
