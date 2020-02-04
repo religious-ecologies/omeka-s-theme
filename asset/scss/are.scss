@@ -14,6 +14,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  height: 2.25rem;
 }
 
 header {
@@ -37,6 +38,10 @@ body.locations #user-bar {
 body.denominations #content,
 body.locations #content {
   padding-left: xy-cell-size(5);
+}
+
+body.user-bar #content {
+  margin-top: 2.25rem;
 }
 
 #are-filters {
@@ -84,4 +89,57 @@ body.locations #content {
 
 .are-family ul {
   padding: (.5 * $global-padding) $global-padding;
+}
+
+.are-filtered-content .property {
+  margin-bottom: $global-margin;
+  
+  h4 {
+    font-size: $global-font-size;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+.are-filtered-content .pagination {
+  display: flex;
+  align-items: center;
+  
+  form {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+  }
+  
+  input {
+    margin: 0;
+  }
+  
+  .page-count,
+  .row-count {
+    margin: 0 #{.5 * $global-margin};
+  }
+  
+  & ~ a {
+    display: flex;
+    align-items: center;
+    margin-bottom: $global-margin;
+  }
+  
+  & ~ a img {
+    height: 3 * $global-padding;
+    width: auto;
+    margin-right: .5 * $global-margin;
+  }
+  
+  .inactive {
+    opacity: .5;
+  }
+  
+  a,
+  .button {
+    color: $white;
+    margin: 0;
+    padding: 0.85em 1em;
+  }
 }
