@@ -732,6 +732,7 @@ body.vertical-menu footer {
   border-bottom: 1px solid $light-gray;
   align-items: flex-end;
   
+  .browse-controls,
   a {
     margin-bottom: (.5 * $global-margin);
   }
