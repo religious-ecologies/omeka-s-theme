@@ -34,14 +34,16 @@ body.locations.vertical-menu footer {
   z-index: 999;
 }
 
-#content {
+#content,
+body:not(.browse) #content {
   padding-left: calc(#{xy-cell-size(2)} + #{$global-padding});
 }
 
 body.home #content,
 body.denominations #content,
-body.locations #content {
-  padding-left: xy-cell-size(5);
+body.locations #content,
+body.item.browse #content {
+  padding-left: calc(#{xy-cell-size(5)} + #{$global-margin});
 }
 
 body.user-bar #content {
@@ -62,6 +64,11 @@ body.user-bar #content {
 
 body.user-bar #home-intro {
   top: 2.25rem;
+}
+
+body.home #blocks > div:not(#home-intro) {
+  width: calc(50% - #{$global-margin});
+  margin-bottom: $global-margin;
 }
 
 #are-filters {
@@ -162,4 +169,85 @@ body.user-bar #home-intro {
     margin: 0;
     padding: 0.85em 1em;
   }
+}
+
+.mare-totals {
+  border: 1px solid lighten($primary-color, 50%);
+  text-align: center;
+  padding-left: calc(25% - #{$global-padding});
+}
+
+.mare-totals h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 50%;
+  background-color: lighten($primary-color, 50%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 50%;
+  bottom: 0;
+  margin-bottom: 0;
+}
+
+.mare-totals b:first-child {
+  display: block;
+  font-size: 2 * $global-font-size;
+}
+
+.mare-totals p {
+  margin-bottom: 0;
+  padding: .5 * $global-padding;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid lighten($primary-color, 50%);
+  }
+}
+
+.mare-county-schedules h3, 
+.mare-denomination-schedules h3 {
+  font-size: $global-font-size;
+  font-weight: bold;
+  padding: .5 * $global-padding;
+  background-color: $primary-color;
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.item-set.browse-preview .resource-image {  
+  a,
+  img {
+    width: 100%;
+  }
+}
+
+.item-set.browse-preview .resource-meta {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 2 * $global-padding;
+  
+  h4 {
+    font-size: $global-font-size;
+    font-weight: bold;
+    background-color: #fff;
+    
+    a:after {
+      content: "\2192";
+      display: inline-block;
+      margin-left: .5 * $global-margin;
+    }
+  }
+}
+
+.browse .resource-list h4 {
+  font-size: $global-font-size;
+}
+
+.has-attachment a:before {
+  content:"\f03e";
+  font-family: "Font Awesome 5 Free";
+  margin-right: .5 * $global-margin;
 }
