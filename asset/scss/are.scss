@@ -242,12 +242,23 @@ body.home #blocks > div:not(#home-intro) {
   }
 }
 
-.browse .resource-list h4 {
-  font-size: $global-font-size;
+.browse .resource-list .item.resource .resource-meta {
+  display: flex;
+  justify-content: flex-start;
 }
 
-.has-attachment a:before {
+.browse .resource-list h4 {
+  font-size: $global-font-size;
+  margin: 0;
+  line-height: $paragraph-lineheight;
+}
+
+.has-attachment h4 a:before {
   content:"\f03e";
   font-family: "Font Awesome 5 Free";
   margin-right: .5 * $global-margin;
+}
+
+.browse .resource-list p {
+  margin: 0 0 0 (.5 * $global-margin);
 }

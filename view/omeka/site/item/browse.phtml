@@ -75,15 +75,21 @@ $sortHeadings = [
 <?php
 foreach ($items as $item):
     $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]')]) : $item->displayTitle();
-    $body = $bodyTerm ? $item->value($bodyTerm) : $item->displayDescription();
+    $body = $bodyTerm ? $item->value($bodyTerm)->asHtml() : $item->displayDescription();
     $attachedMedia = count($item->media());
 ?>  
     <li class="item resource <?php echo ($isGrid) ? '' : 'media-object'; ?>">
         <div class="resource-meta <?php echo ($isGrid) ? '' : 'media-object-section'; ?> <?php echo ($attachedMedia > 0) ? 'has-attachment' : ''; ?>">
             <h4><?php echo $item->link($heading); ?></h4>
             <?php if ($body): ?>
-            <div class="description"><?php echo $body; ?></div>
+            <div class="description">
+              <?php if ($bodyTerm == 'mare:county'): ?>
+                <p>County: <?php echo $body; ?></p>
+              <?php else: ?>
+                <?php echo $body; ?>
+              <?php endif; ?>
             <?php endif; ?>
+            </div>
         </div>
     </li>
 <?php endforeach; ?>
