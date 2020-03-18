@@ -43,42 +43,33 @@ $sortHeadings = [
 
 <div id="are-filters">
   <?php 
-    $resourceTemplates = $this->api()->search('resource_templates')->getContent(); 
+    $resourceTemplates = $this->api()->search('resource_templates')->getContent();
+    array_shift($resourceTemplates);
     $resourceTemplateIds = [];
+    foreach($resourceTemplates as $resourceTemplate) {
+      $resourceTemplateIds[$resourceTemplate->label()] = $resourceTemplate->id();
+    }
+    echo $this->partial('common/are-filter-select', [
+        'heading' => 'Resource type',
+        'filterResourceType' => 'resource_templates',
+        'filterResources' => $resourceTemplates
+    ]); 
+
+    $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
+    echo $this->partial('common/are-filter-select', [
+        'heading' => 'Denomination family',
+        'filterResourceType' => 'items',
+        'filterResources' => $denominationFamiles
+    ]);
+
+
+    $stateTerritories = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['State/Territory']])->getContent();
+    echo $this->partial('common/are-filter-select', [
+        'heading' => 'State/Territory',
+        'filterResourceType' => 'items',
+        'filterResources' => $stateTerritories
+    ]);
   ?>
-  <div class="filter-select resource-template">
-      <h4>Resource type</h4>
-      <select class="chosen-select" name="resource-template-filter">
-        <?php foreach ($resourceTemplates as $resourceTemplate): ?>
-            <?php if ($resourceTemplate->label() !== 'Base Resource'): ?>
-            <option value="<?php echo $resourceTemplate->id(); ?>"><?php echo $resourceTemplate->label(); ?></option>
-            <?php $resourceTemplateIds[$resourceTemplate->label()] = $resourceTemplate->id(); ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-      </select>
-  </div>
-  <div class="filter-select denomination-family">
-      <?php 
-        $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
-      ?>
-      <h4>Denomination family</h4>
-      <select class="chosen-select" name="denomination-family-filter">
-        <?php foreach ($denominationFamiles as $denominationFamily): ?>
-            <option value="<?php echo $denominationFamily->id(); ?>"><?php echo $denominationFamily->title(); ?></option>
-        <?php endforeach; ?>
-      </select>
-  </div>
-  <div class="filter-select state-territories">
-      <?php 
-        $stateTerritories = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['State/Territory']])->getContent();
-      ?>
-      <h4>State/Territory</h4>
-      <select class="chosen-select" name="state-territories-filter">
-        <?php foreach ($stateTerritories as $stateTerritory): ?>
-            <option value="<?php echo $stateTerritory->id(); ?>"><?php echo $stateTerritory->title(); ?></option>
-        <?php endforeach; ?>
-      </select>
-  </div>
   <button type="button" class="filter-submit">Apply filters</button>
 </div>
 
