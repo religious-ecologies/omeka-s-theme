@@ -13,7 +13,7 @@ var locationSchedulesUrl = baseUrl + 'county-schedules?county-id=';
 
 (function($) {
     $(document).ready(function() {
-      
+            
       // During the wireframing process, we're targeting pages that have
       // "denominations" and "locations" as their slugs.
       

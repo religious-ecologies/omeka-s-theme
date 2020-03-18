@@ -87,6 +87,12 @@ body.home #blocks > div:not(#home-intro) {
     display: none;
   }
   
+  h4 {
+    font-size: $global-font-size;
+    line-height: $paragraph-lineheight;
+    font-weight: bold;
+  }
+  
   ul {
     list-style-type: none;
     margin-left: 0;
@@ -98,6 +104,10 @@ body.home #blocks > div:not(#home-intro) {
   
   li.collapse ul {
     display: block;
+  }
+  
+  .filter-select {
+    margin-bottom: $global-margin;
   }
 }
 

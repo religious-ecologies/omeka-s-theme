@@ -5,6 +5,8 @@ $this->headScript()->appendFile($this->assetUrl('js/browse.js'));
 $this->htmlElement('body')->appendAttribute('class', 'item resource browse');
 $this->headLink()->prependStylesheet($this->assetUrl('vendor/chosen-js/chosen.css', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/chosen-js/chosen.jquery.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('js/chosen-options.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('js/are-item-browse.js'));
 $query = $this->params()->fromQuery();
 $itemSetShow = isset($itemSet);
 if ($itemSetShow):
@@ -40,6 +42,44 @@ $sortHeadings = [
 ?>
 
 <div id="are-filters">
+  <?php 
+    $resourceTemplates = $this->api()->search('resource_templates')->getContent(); 
+    $resourceTemplateIds = [];
+  ?>
+  <div class="filter-select resource-template">
+      <h4>Resource type</h4>
+      <select class="chosen-select" name="resource-template-filter">
+        <?php foreach ($resourceTemplates as $resourceTemplate): ?>
+            <?php if ($resourceTemplate->label() !== 'Base Resource'): ?>
+            <option value="<?php echo $resourceTemplate->id(); ?>"><?php echo $resourceTemplate->label(); ?></option>
+            <?php $resourceTemplateIds[$resourceTemplate->label()] = $resourceTemplate->id(); ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+      </select>
+  </div>
+  <div class="filter-select denomination-family">
+      <?php 
+        $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
+      ?>
+      <h4>Denomination family</h4>
+      <select class="chosen-select" name="denomination-family-filter">
+        <?php foreach ($denominationFamiles as $denominationFamily): ?>
+            <option value="<?php echo $denominationFamily->id(); ?>"><?php echo $denominationFamily->title(); ?></option>
+        <?php endforeach; ?>
+      </select>
+  </div>
+  <div class="filter-select state-territories">
+      <?php 
+        $stateTerritories = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['State/Territory']])->getContent();
+      ?>
+      <h4>State/Territory</h4>
+      <select class="chosen-select" name="state-territories-filter">
+        <?php foreach ($stateTerritories as $stateTerritory): ?>
+            <option value="<?php echo $stateTerritory->id(); ?>"><?php echo $stateTerritory->title(); ?></option>
+        <?php endforeach; ?>
+      </select>
+  </div>
+  <button type="button" class="filter-submit">Apply filters</button>
 </div>
 
 <?php if ($itemSetShow): ?>
@@ -83,13 +123,13 @@ foreach ($items as $item):
             <h4><?php echo $item->link($heading); ?></h4>
             <?php if ($body): ?>
             <div class="description">
+              <?php if ($bodyTerm == 'mare:county'): ?>
                 <p>(County: <?php echo $body->asHtml(); ?>)</p>
               <?php else: ?>
                 <?php echo $body; ?>
               <?php endif; ?>
             </div>
             <?php endif; ?>
-            </div>
         </div>
     </li>
 <?php endforeach; ?>
