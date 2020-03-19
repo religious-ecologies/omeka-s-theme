@@ -20,5 +20,26 @@
         $(document).on('chosen:hiding_dropdown', '.chosen-select', function(e) {
             $(e.target).next('.chosen-container').removeClass('chosen-drop-up');
         });
+        
+        $(document).on('change', '.chosen-select', function() {
+            var filterSelected = $(this).find(':selected');
+            var filterLabel = filterSelected.text();
+            var filterId = filterSelected.val();
+
+            var filterContainer = filterSelected.parents('.filter-select');
+            var selectedFilters = filterContainer.find('.selected-filters');
+            var filterTemplate = selectedFilters.data('filter-link-template');
+            var filterLink = $(filterTemplate);
+            
+            if (selectedFilters.find('[data-filter-id="' + filterId + '"]').length == 0) {
+                filterLink.find('.filter-link').text(filterLabel).attr('data-filter-id', filterId);
+                filterLink.appendTo(selectedFilters);
+                selectedFilters.removeClass('empty');              
+            }
+        });
+        
+        $(document).on('click', '.clear-filter', function() {
+            $(this).parents('li').remove();
+        });
     });
 })(jQuery)
