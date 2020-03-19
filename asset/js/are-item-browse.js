@@ -25,17 +25,19 @@
             var filterSelected = $(this).find(':selected');
             var filterLabel = filterSelected.text();
             var filterId = filterSelected.val();
-
-            var filterContainer = filterSelected.parents('.filter-select');
-            var selectedFilters = filterContainer.find('.selected-filters');
-            var filterTemplate = selectedFilters.data('filter-link-template');
-            var filterLink = $(filterTemplate);
-            
-            if (selectedFilters.find('[data-filter-id="' + filterId + '"]').length == 0) {
-                filterLink.find('.filter-link').text(filterLabel).attr('data-filter-id', filterId);
-                filterLink.appendTo(selectedFilters);
-                selectedFilters.removeClass('empty');              
+            if (filterId > 0) {
+                var filterContainer = filterSelected.parents('.filter-select');
+                var selectedFilters = filterContainer.find('.selected-filters');
+                var filterTemplate = selectedFilters.data('filter-link-template');
+                var filterLink = $(filterTemplate);
+                
+                if (selectedFilters.find('[data-filter-id="' + filterId + '"]').length == 0) {
+                    filterLink.find('.filter-link').text(filterLabel).attr('data-filter-id', filterId);
+                    filterLink.appendTo(selectedFilters);
+                    selectedFilters.removeClass('empty');              
+                }
             }
+            filterId = 0;
         });
         
         $(document).on('click', '.clear-filter', function() {
