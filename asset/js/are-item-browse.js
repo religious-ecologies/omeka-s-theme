@@ -1,6 +1,8 @@
 (function($) {
     $(document).ready(function() {
-      // Chosen select population, taken from Omeka's admin.js
+        var filterSubmitButton = $('.filter-submit');
+  
+        // Chosen select population, taken from Omeka's admin.js
       
         $('.chosen-select').chosen(chosenOptions);
 
@@ -30,18 +32,35 @@
                 var selectedFilters = filterContainer.find('.selected-filters');
                 var filterTemplate = selectedFilters.data('filter-link-template');
                 var filterLink = $(filterTemplate);
+                var filterParam = selectedFilters.data('filter-key') + '=' + filterId;
                 
-                if (selectedFilters.find('[data-filter-id="' + filterId + '"]').length == 0) {
-                    filterLink.find('.filter-link').text(filterLabel).attr('data-filter-id', filterId);
+                if (selectedFilters.find('[data-filter-param="' + filterParam + '"]').length == 0) {
+                    var filterAnchor = filterLink.find('.filter-link');
+                    filterAnchor.text(filterLabel).attr('data-filter-param', filterParam);
                     filterLink.appendTo(selectedFilters);
                     selectedFilters.removeClass('empty');              
-                }
+                }                
             }
             filterId = 0;
+            $(this).val('').trigger('chosen:updated');
         });
         
         $(document).on('click', '.clear-filter', function() {
             $(this).parents('li').remove();
+        });
+        
+        // Build search query
+        
+        filterSubmitButton.click(function(e) {
+            e.preventDefault();
+            var currentQuery = filterSubmitButton.attr('href');
+            currentQuery = currentQuery + "?";
+            $('.filter-link').each(function() {
+                var filterParam = $(this).data('filter-param');
+                currentQuery = currentQuery + filterParam + "&";
+            });
+            console.log(currentQuery);
+            window.location.href = currentQuery;
         });
     });
 })(jQuery)
