@@ -42,6 +42,11 @@ $sortHeadings = [
 ?>
 
 <div id="are-filters">
+  <div id="filter-query" class="empty">
+    <h4>Selected filters</h4>
+    <ul class="selected-filters">
+    </ul>
+  </div>
   <?php 
     $resourceTemplates = $this->api()->search('resource_templates')->getContent();
     array_shift($resourceTemplates);
@@ -52,25 +57,33 @@ $sortHeadings = [
     echo $this->partial('common/are-filter-select', [
         'heading' => 'Resource type',
         'filterResourceType' => 'resource_templates',
-        'filterResources' => $resourceTemplates
+        'filterResources' => $resourceTemplates,
+        'filterKey' => 'resource_template_id[]',
     ]); 
 
     $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
+    $denominationProperty = $this->api()->search('properties', ['term' => 'mare:denominationFamily', 'limit' => 1])->getContent();
+    $denominationFamilyPropertyId = $denominationProperty{0}->id();
     echo $this->partial('common/are-filter-select', [
         'heading' => 'Denomination family',
         'filterResourceType' => 'items',
-        'filterResources' => $denominationFamiles
+        'filterResources' => $denominationFamiles,
+        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $denominationFamilyPropertyId . '&property[INDEX][type]=res&property[INDEX][text]'
     ]);
 
 
     $stateTerritories = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['State/Territory']])->getContent();
+    $stateTerritoriesProperty = $this->api()->search('properties', ['term' => 'mare:stateTerritory', 'limit' => 1])->getContent();
+    $stateTerritoriesPropertyId = $stateTerritoriesProperty{0}->id();
     echo $this->partial('common/are-filter-select', [
         'heading' => 'State/Territory',
         'filterResourceType' => 'items',
-        'filterResources' => $stateTerritories
+        'filterResources' => $stateTerritories,
+        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $stateTerritoriesPropertyId . '&property[INDEX][type]=res&property[INDEX][text]'
     ]);
   ?>
-  <button type="button" class="filter-submit">Apply filters</button>
+  <a href="<?php echo $this->url(null, ['action' => 'browse'], true); ?>" type="button" class="filter-submit button">Apply filters</></a>
+
 </div>
 
 <?php if ($itemSetShow): ?>

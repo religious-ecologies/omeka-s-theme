@@ -27,26 +27,54 @@
             var filterSelected = $(this).find(':selected');
             var filterLabel = filterSelected.text();
             var filterId = filterSelected.val();
+            var propertiesIndex = $('#are-filters').data('properties-index');
             if (filterId > 0) {
                 var filterContainer = filterSelected.parents('.filter-select');
-                var selectedFilters = filterContainer.find('.selected-filters');
-                var filterTemplate = selectedFilters.data('filter-link-template');
+                var selectedFilters = $('.selected-filters');
+                var filterTemplate = filterContainer.data('filter-link-template');
                 var filterLink = $(filterTemplate);
-                var filterParam = selectedFilters.data('filter-key') + '=' + filterId;
-                
-                if (selectedFilters.find('[data-filter-param="' + filterParam + '"]').length == 0) {
-                    var filterAnchor = filterLink.find('.filter-link');
-                    filterAnchor.text(filterLabel).attr('data-filter-param', filterParam);
-                    filterLink.appendTo(selectedFilters);
-                    selectedFilters.removeClass('empty');              
-                }                
+                var filterParam = filterContainer.data('filter-key') + '=' + filterId;
+                var filterAnchor = filterLink.find('.filter-link');
+                if (filterParam.indexOf('INDEX') > -1) {
+                  var indexString = 'INDEX';
+                  indexString = new RegExp(indexString, 'g');
+                  if (typeof propertiesIndex !== 'undefined') {
+                    propertiesIndex = propertiesIndex + 1;                    
+                    filterLink.data('index', propertiesIndex);
+                  } else {
+                    propertiesIndex = 0;
+                    filterLink.data('index', 0);
+                  }
+                  $('#are-filters').data('properties-index', propertiesIndex);
+                  filterParam = filterParam.replace(indexString, propertiesIndex);
+                }
+
+                filterAnchor.text(filterLabel).attr('data-filter-param', filterParam).attr('data-filter-id', filterId);
+                filterLink.appendTo(selectedFilters);
+                selectedFilters.parents('#filter-query').removeClass('empty');              
             }
             filterId = 0;
+            filterSelected.attr('disabled', true);
             $(this).val('').trigger('chosen:updated');
         });
         
+        $(document).on('change', '[name="joiner"]', function() {
+            var joinerSelect = $(this);
+            var filterLink = joinerSelect.next('.filter-link');
+            var filterParam = filterLink.data('filter-param');
+            var joinerRegex = new RegExp(/(\[joiner\]\=).+?(?=\&)/);
+            var newParam = filterParam.replace(joinerRegex, '[joiner]=' + joinerSelect.val());
+            filterLink.data('filter-param', newParam);
+        });
+        
         $(document).on('click', '.clear-filter', function() {
-            $(this).parents('li').remove();
+            var filterLink = $(this).prev('a');
+            var filterId = filterLink.data('filter-id');
+            var filterContainer = filterLink.parents('.filter-select');
+            var filterParam = filterLink.data('filter-param');
+            filterContainer.find('option[value="' + filterId + '"]').attr('disabled', false);
+            filterContainer.find('.chosen-select').trigger('chosen:updated');
+            filterLink.parents('li').remove();
         });
         
         // Build search query

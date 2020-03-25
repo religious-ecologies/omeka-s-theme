@@ -111,7 +111,7 @@ body.home #blocks > div:not(#home-intro) {
     margin-bottom: $global-margin;
   }
   
-  .empty.selected-filters {
+  .empty {
     display: none;
   }
   
@@ -124,9 +124,24 @@ body.home #blocks > div:not(#home-intro) {
     justify-content: space-between;
     align-items: center;
     padding: (.25 * $global-padding) 0;
+
+    &:first-of-type select {
+      display: none;
+    }
     
     &:not(:last-child) {
       border-bottom: 1px solid lighten($primary-color, 25%);
+    }
+
+    select {
+      font-size: .875 * $global-font-size;
+      height: auto;
+      margin: 0 (.5 * $global-margin) 0 0;
+      padding-left: (.5 * $global-padding);
+    }
+    
+    .filter-link {
+      margin-right: auto;
     }
   }
 
