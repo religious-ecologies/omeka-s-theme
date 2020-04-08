@@ -22,6 +22,29 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
 }
 
+img,
+a img,
+table {
+  border: 1px solid $primary-color;
+  box-shadow: 5px 5px 0 $primary-color;
+  margin-bottom: .5 * $global-margin;
+}
+
+thead, 
+tbody, 
+tfoot {
+  border: 0;
+}
+
+thead, 
+tbody {
+  border-left: 1px solid $primary-color;
+}
+
+tbody {
+  border-bottom: 1px solid $primary-color;
+}
+
 #user-bar {
   position: fixed;
   top: 0;
@@ -38,8 +61,23 @@ header {
   width: xy-cell-size(2);
 }
 
-header nav {
+header .vertical.menu {
   font-family: $secondary-header-font-family;
+  
+  li {
+    margin-bottom: .25 * $global-margin;
+    padding-bottom: .25 * $global-padding;
+    
+    &:not(:last-child) {
+      border-bottom: 1px solid $dark-gray;
+    }
+  }
+}
+
+.menu .active > a {
+  background-color: transparent;
+  font-weight: bold;
+  color: $primary-color;
 }
 
 body {    
@@ -54,6 +92,10 @@ body.vertical-menu header {
   a {
     color: $primary-color;
   }
+}
+
+body.vertical-menu footer {
+  background-color: $body-background;
 }
 
 body.vertical-menu #content {
@@ -268,9 +310,12 @@ body.home #blocks > div:not(#home-intro) {
 }
 
 .mare-totals {
-  border: 1px solid $body-background;
   text-align: center;
   padding-left: calc(25% - #{$global-padding});
+}
+
+.mare-totals {
+  @extend table;
 }
 
 .mare-totals h3 {
@@ -291,6 +336,7 @@ body.home #blocks > div:not(#home-intro) {
 .mare-totals b:first-child {
   display: block;
   font-size: 2 * $global-font-size;
+  font-family: $header-font-family;
 }
 
 .mare-totals p {
@@ -304,11 +350,16 @@ body.home #blocks > div:not(#home-intro) {
 
 .mare-county-schedules h3, 
 .mare-denomination-schedules h3 {
+  @extend table;
+}
+
+.mare-county-schedules h3, 
+.mare-denomination-schedules h3 {
   font-size: $global-font-size;
   font-weight: bold;
   padding: .5 * $global-padding;
   margin-bottom: 0;
-  border-bottom: 1px solid $medium-gray;
+  border-bottom: 0;
 }
 
 .item-set.browse-preview .resource-image {  
@@ -333,6 +384,10 @@ body.home #blocks > div:not(#home-intro) {
       content: "\2192";
       display: inline-block;
       margin-left: .5 * $global-margin;
+    }
+    
+    a {
+      padding: (.25 * $global-padding);
     }
   }
 }

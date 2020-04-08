@@ -15,7 +15,7 @@ foreach ($this->resources as $resource):
 <div class="<?php echo $this->resourceType; ?> resource browse-preview">
     <?php if ($thumbnail = $this->thumbnail($resource, 'large')): ?>
     <div class="resource-image">
-        <?php echo $resource->linkRaw($thumbnail, null, ['class' => 'thumbnail']); ?>
+        <?php echo $resource->linkRaw($thumbnail, null); ?>
     </div>
     <?php endif; ?>
     <div class="resource-meta">
