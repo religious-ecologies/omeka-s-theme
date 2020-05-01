@@ -1,9 +1,8 @@
 <?php
-$dataFilterLinkHtml = '<li><select name="joiner[]"><option value="and">and</option><option value="or" selected>or</option></select><a href="#" class="filter-link"' . $filterResourceType . '></a><button type="button" class="o-icon-close clear-filter" aria-label="Clear filter"></button></li>';
+$dataFilterLinkHtml = '<li><select name="joiner"><option value="and">and</option><option value="or" selected>or</option></select><a href="#" class="filter-link"></a><button type="button" class="o-icon-close clear-filter" aria-label="Clear filter"></button></li>';
 ?>
-<div class="filter-select">
+<div class="filter-select" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' data-filter-key='<?php echo $filterKey; ?>' data-resource-type="<?php echo $filterResourceType; ?>">
     <h4><?php echo $heading; ?></h4>
-    <ul class="empty selected-filters" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' data-filter-key='<?php echo $filterKey; ?>'></ul>
     <select class="chosen-select" name="resource-template-filter" data-placeholder="Select a filter">
       <option value=""></option>
       <?php foreach ($filterResources as $filterResource): ?>

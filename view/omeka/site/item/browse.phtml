@@ -54,12 +54,6 @@ $sortHeadings = [
     foreach($resourceTemplates as $resourceTemplate) {
       $resourceTemplateIds[$resourceTemplate->label()] = $resourceTemplate->id();
     }
-    echo $this->partial('common/are-filter-select', [
-        'heading' => 'Resource type',
-        'filterResourceType' => 'resource_templates',
-        'filterResources' => $resourceTemplates,
-        'filterKey' => 'resource_template_id[]',
-    ]); 
 
     $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
     $denominationProperty = $this->api()->search('properties', ['term' => 'mare:denominationFamily', 'limit' => 1])->getContent();

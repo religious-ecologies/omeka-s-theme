@@ -188,7 +188,9 @@ body.home #blocks > div:not(#home-intro) {
     margin-bottom: $global-margin;
   }
   
-  .empty {
+  .filter-select[data-resource-type="template"],
+  .empty,
+  .filter-data {
     display: none;
   }
   

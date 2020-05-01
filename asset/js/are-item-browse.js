@@ -1,7 +1,31 @@
 (function($) {
     $(document).ready(function() {
         var filterSubmitButton = $('.filter-submit');
-  
+        var filterSelectTemplate = $('[data-resource-type="template"]');
+        var baseDomain = 'https://omeka.religiousecologies.org/api/items?';
+        
+        var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam) {
+            var newFilterSelect = filterSelectTemplate.clone();
+            var newFilterSelectInput = newFilterSelect.find('select');
+            newFilterSelect.attr('data-resource-type', resourceType); // resource type is 'denomination'
+            var templateFilterKey = newFilterSelect.data('filter-key');
+            var propertyId = $('.' + resourceType + '-id.filter-data').data('property-id');
+            var newFilterKey = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
+            newFilterSelect.data('filterKey', newFilterKey);
+            $('[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect); // parentResourceType is 'denomination-family'
+            newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
+            
+            var apiSearchUrl = baseDomain + filterParam;
+            newFilterSelect.find('h4').text(heading);
+            newFilterSelect.attr('data-updated', "true");
+            $.get(apiSearchUrl, function(data) {
+                $.each(data, function() {
+                    newFilterSelectInput.append($('<option value="' + this['o:id'] + '">' + this['dcterms:title'][0]['@value'] + '</option>'));
+                    newFilterSelectInput.trigger('chosen:updated');
+                });
+            });
+        };
+
         // Chosen select population, taken from Omeka's admin.js
       
         $('.chosen-select').chosen(chosenOptions);
@@ -19,6 +43,7 @@
                 chosenContainer.addClass('chosen-drop-up');
             }
         });
+        
         $(document).on('chosen:hiding_dropdown', '.chosen-select', function(e) {
             $(e.target).next('.chosen-container').removeClass('chosen-drop-up');
         });
@@ -48,13 +73,23 @@
                   $('#are-filters').data('properties-index', propertiesIndex);
                   filterParam = filterParam.replace(indexString, propertiesIndex);
                 }
-
+                
                 filterAnchor.text(filterLabel).attr('data-filter-param', filterParam).attr('data-filter-id', filterId);
                 filterLink.appendTo(selectedFilters);
                 selectedFilters.parents('#filter-query').removeClass('empty');              
+
+    
+                if ($(this).parents('[data-resource-type="denomination-family"]').length > 0) {
+                  populateChildFilter('denomination', 'denomination-family', filterLabel, filterParam);
+                }
+                
+                if ($(this).parents('[data-resource-type="state-territory"]').length > 0) {
+                  populateChildFilter('county', 'state-territory', filterLabel, filterParam);
+                }
             }
             filterId = 0;
             filterSelected.attr('disabled', true);
+            
             $(this).val('').trigger('chosen:updated');
         });
         
@@ -76,7 +111,7 @@
             filterContainer.find('.chosen-select').trigger('chosen:updated');
             filterLink.parents('li').remove();
         });
-        
+                
         // Build search query
         
         filterSubmitButton.click(function(e) {
@@ -87,7 +122,6 @@
                 var filterParam = $(this).data('filter-param');
                 currentQuery = currentQuery + filterParam + "&";
             });
-            console.log(currentQuery);
             window.location.href = currentQuery;
         });
     });
