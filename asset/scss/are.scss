@@ -6,7 +6,6 @@
 
 // ARE Settings
 
-
 $body-background: $gray;
 $body-font-color: $black;
 $body-font-family: 'Quattrocento Sans', sans-serif;
@@ -311,12 +310,14 @@ body.home #blocks > div:not(#home-intro) {
 }
 
 .mare-totals {
-  text-align: center;
-  padding-left: calc(25% - #{$global-padding});
+  @extend table;
 }
 
 .mare-totals {
-  @extend table;
+  text-align: center;
+  padding-left: calc(25% - #{$global-padding});
+  width: calc(50% - #{$global-margin});
+  position: relative;
 }
 
 .mare-totals h3 {
@@ -332,6 +333,7 @@ body.home #blocks > div:not(#home-intro) {
   right: 50%;
   bottom: 0;
   margin-bottom: 0;
+  border-right: 1px solid $primary-color;
 }
 
 .mare-totals b:first-child {
@@ -349,6 +351,11 @@ body.home #blocks > div:not(#home-intro) {
   }
 }
 
+.mare-county-schedules, 
+.mare-denomination-schedules {
+  width: calc(50% - #{$global-margin});
+}
+
 .mare-county-schedules h3, 
 .mare-denomination-schedules h3 {
   @extend table;
@@ -361,6 +368,11 @@ body.home #blocks > div:not(#home-intro) {
   padding: .5 * $global-padding;
   margin-bottom: 0;
   border-bottom: 0;
+}
+
+.item-set.browse-preview {
+  position: relative;
+  margin-bottom: .5 * $global-margin;
 }
 
 .item-set.browse-preview .resource-image {  
@@ -412,4 +424,9 @@ body.home #blocks > div:not(#home-intro) {
 
 .browse .resource-list p {
   margin: 0 0 0 (.5 * $global-margin);
+}
+
+.search-filters .filter {
+  display: inline-flex;
+  margin-bottom: (.5 * $global-margin);
 }

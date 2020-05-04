@@ -5,7 +5,7 @@ $queryUrl = $this->url(
     'site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query], true
 );
 ?>
-
+<div class="browse-preview-block">
 <?php
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
@@ -30,5 +30,4 @@ if ($this->linkText && !$this->heading):
     echo $this->hyperlink($this->linkText, $queryUrl);
 endif;
 ?>
-
 </div>
