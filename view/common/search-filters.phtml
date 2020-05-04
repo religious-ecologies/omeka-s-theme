@@ -1,0 +1,26 @@
+<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php if (count($filters) > 0): ?>
+<div class="search-filters">
+    <?php foreach ($filters as $filterLabel => $filterValues): ?>
+    <div class="filter">
+        <?php $resourceWithId = (strpos($filterLabel, 'is resource with ID')) ? true : false; ?>
+        <span class="filter-label">
+        <?php if ($resourceWithId): ?>
+        <?php $filterLabel = str_replace('is resource with ID', '', $filterLabel); ?>
+        <?php endif; ?>
+        <?php echo $escape($filterLabel); ?>
+        </span>
+        <?php foreach ($filterValues as $filterValue): ?>
+            <span class="filter-value">
+            <?php if ($resourceWithId): ?>        
+                <?php $resource = $this->api()->read('items', $filterValue)->getContent(); ?>
+                <?php echo $resource->displayTitle(); ?>
+            <?php else: ?>
+                <?php echo $escape($filterValue); ?>
+            <?php endif; ?>
+            </span>
+        <?php endforeach; ?>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
