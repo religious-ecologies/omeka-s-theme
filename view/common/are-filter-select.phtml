@@ -3,15 +3,11 @@ $dataFilterLinkHtml = '<li><select name="joiner"><option value="and">and</option
 ?>
 <div class="filter-select" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' data-filter-key='<?php echo $filterKey; ?>' data-resource-type="<?php echo $filterResourceType; ?>">
     <h4><?php echo $heading; ?></h4>
-    <select <?php echo ($template) ? '' : 'class="chosen-select"'; ?> name="resource-template-filter" data-placeholder="Select a filter">
+    <select <?php echo (isset($template)) ? '' : 'class="chosen-select"'; ?> name="resource-template-filter" data-placeholder="Select a filter">
       <option value=""></option>
       <?php foreach ($filterResources as $filterResource): ?>
       <option value="<?php echo $filterResource->id(); ?>">
-          <?php if ($filterResourceType == 'resource_templates'): ?>
-          <?php echo $filterResource->label(); ?>
-          <?php else: ?>
           <?php echo $filterResource->title(); ?>
-          <?php endif; ?>
       </option>
       <?php endforeach; ?>
     </select>

@@ -12,7 +12,7 @@
             var propertyId = $('.' + resourceType + '-id.filter-data').data('property-id');
             var newFilterKey = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
             newFilterSelect.data('filterKey', newFilterKey);
-            $('[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect); // parentResourceType is 'denomination-family'
+            $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect); // parentResourceType is 'denomination-family'
             newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
             
             var apiSearchUrl = baseDomain + filterParam;
@@ -73,8 +73,12 @@
                   $('#are-filters').data('properties-index', propertiesIndex);
                   filterParam = filterParam.replace(indexString, propertiesIndex);
                 }
-                
-                filterAnchor.text(filterLabel).attr('data-filter-param', filterParam).attr('data-filter-id', filterId);
+                filterAnchor.text(filterLabel);
+                filterAnchor.attr({
+                  'data-filter-param': filterParam,
+                  'data-filter-id': filterId,
+                  'data-resource-type': filterContainer.data('resource-type')
+                });
                 filterLink.appendTo(selectedFilters);
                 selectedFilters.parents('#filter-query').removeClass('empty');              
 
@@ -105,7 +109,8 @@
         $(document).on('click', '.clear-filter', function() {
             var filterLink = $(this).prev('a');
             var filterId = filterLink.data('filter-id');
-            var filterContainer = filterLink.parents('.filter-select');
+            var filterResourceType = filterLink.data('resource-type');
+            var filterContainer = $('.filter-select[data-resource-type="' + filterResourceType + '"]');
             var filterParam = filterLink.data('filter-param');
             filterContainer.find('option[value="' + filterId + '"]').attr('disabled', false);
             filterContainer.find('.chosen-select').trigger('chosen:updated');
