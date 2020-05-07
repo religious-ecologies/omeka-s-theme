@@ -17,6 +17,10 @@ $header-font-style: normal;
 @import 'foundation-core';
 @import 'omeka';
 
+body.vertical-menu {
+  background-color: $body-background;
+}
+
 h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
 }
@@ -123,7 +127,7 @@ body.item.browse #content {
 }
 
 body.user-bar #content {
-  margin-top: 2.25rem;
+  margin-top: 1.5rem;
 }
 
 #home-intro {
@@ -237,6 +241,10 @@ body.home #blocks > div:not(#home-intro) {
     background-color: transparent;
     color: $primary-color;
   }
+  
+  .chosen-container {
+    font-size: $global-font-size;
+  }
 }
 
 #user-bar ~ header,
@@ -244,8 +252,8 @@ body.home #blocks > div:not(#home-intro) {
   top: 2.25rem;
 }
 
-.are-family  {
-  padding: (.25 * $global-padding) $global-padding;
+.are-family {
+  padding: 0 $global-padding;
 }
 
 .are-family:not(:last-child) {
@@ -430,3 +438,57 @@ body.home #blocks > div:not(#home-intro) {
   display: inline-flex;
   margin-bottom: (.5 * $global-margin);
 }
+
+.resource.show .media-render > a:only-child {
+  border: 0;
+  box-shadow: none;
+}
+
+body.locations .property,
+body.denominations .property {
+  display: flex;
+  margin: $global-margin (-.5 * $global-margin);
+}
+
+.inline .property {
+  margin: 0 (-.5 * $global-margin);  
+}
+
+body.locations .property h4,
+body.denominations .property h4 {
+  @include xy-cell(4);
+  text-transform: none;
+  font-family: $body-font-family;
+}
+
+body.locations .property .values,
+body.denominations .property .values {
+  @include xy-cell(8);
+}
+
+.inline .property dt {
+  text-align: left;
+}
+
+.linked-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.linked-header .omeka-pagination,
+.linked-footer .omeka-pagination {
+  width: 50%;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.linked-footer .omeka-pagination {
+  margin: $global-margin 0 $global-margin auto;
+}
+
+.linked-resource-property {
+  text-align: left;
+  padding: $global-padding 0;
+}
+
