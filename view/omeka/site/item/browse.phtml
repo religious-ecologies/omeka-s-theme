@@ -55,12 +55,20 @@ $sortHeadings = [
       $resourceTemplateIds[$resourceTemplate->label()] = $resourceTemplate->id();
     }
 
+    echo $this->partial('common/are-filter-select', [
+        'heading' => 'Template',
+        'filterResourceType' => 'template',
+        'filterResources' => [],
+        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=$TEMPLATE-ID&property[INDEX][type]=res&property[INDEX][text]',
+        'template' => true,
+    ]);
+
     $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
     $denominationProperty = $this->api()->search('properties', ['term' => 'mare:denominationFamily', 'limit' => 1])->getContent();
     $denominationFamilyPropertyId = $denominationProperty{0}->id();
     echo $this->partial('common/are-filter-select', [
         'heading' => 'Denomination family',
-        'filterResourceType' => 'items',
+        'filterResourceType' => 'denomination-family',
         'filterResources' => $denominationFamiles,
         'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $denominationFamilyPropertyId . '&property[INDEX][type]=res&property[INDEX][text]'
     ]);
@@ -71,7 +79,7 @@ $sortHeadings = [
     $stateTerritoriesPropertyId = $stateTerritoriesProperty{0}->id();
     echo $this->partial('common/are-filter-select', [
         'heading' => 'State/Territory',
-        'filterResourceType' => 'items',
+        'filterResourceType' => 'state-territory',
         'filterResources' => $stateTerritories,
         'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $stateTerritoriesPropertyId . '&property[INDEX][type]=res&property[INDEX][text]'
     ]);
