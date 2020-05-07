@@ -86,6 +86,12 @@ $sortHeadings = [
   ?>
   <a href="<?php echo $this->url(null, ['action' => 'browse'], true); ?>" type="button" class="filter-submit button">Apply filters</></a>
 
+  <?php $singleDenominationProperty = $this->api()->search('properties', ['term' => 'mare:denomination'])->getContent(); ?>  
+  <?php $countyProperty = $this->api()->search('properties', ['term' => 'mare:county'])->getContent(); ?>  
+  <span class="filter-data denomination-id" data-property-id="<?php echo $singleDenominationProperty{0}->id(); ?>"></span>
+  <span class="filter-data county-id" data-property-id="<?php echo $countyProperty{0}->id(); ?>" ></span>
+  
+
 </div>
 
 <?php if ($itemSetShow): ?>
