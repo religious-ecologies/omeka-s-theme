@@ -68,6 +68,7 @@ body:not(.browse) #content {
 .break {
   width: 100%;
   margin: (2 * $global-margin) 0;
+  clear: both;
 }
 
 .break.opaque {
@@ -188,7 +189,7 @@ body.vertical-menu header {
   background-color: $primary-color;
   width: 100%;
 
-  @include breakpoint(medium up) {
+  @include breakpoint(large up) {
     padding: $global-padding;     
     @include xy-cell(2, $gutters: 0);
   }
@@ -221,10 +222,25 @@ body.vertical-menu header {
   .vertical.menu li a {
     padding: (.5 * $global-padding)  0;
   }
+
+}
+
+body.vertical-menu .vertical.menu.nested .active > a {
+  position: relative;
+  
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -1 * $global-padding;
+    width: $global-padding;
+    bottom: 0;
+    background-color: $primary-color;
+  }
 }
 
 body.vertical-menu header .desktop {
-  @include breakpoint(small down) {
+  @include breakpoint(medium down) {
     display: none;
   }
 }
@@ -323,6 +339,7 @@ body.vertical-menu footer {
 
     &.open {
       display: flex;
+      align-items: stretch;
     }
     
     &.closed {
@@ -389,11 +406,26 @@ body.vertical-menu footer {
 
 .resource-list .resource-image {
   order: 2;
+  text-align: center;
+  width: 25%;
+  
+  @include breakpoint(medium down) {
+    margin: 0;
+    width: 50%;
+  }
+}
+
+.resource-list .resource-image.media-object-section img {
+  max-width: 100%;
 }
 
 .resource-list .resource-meta:not(:only-child) {
   @include xy-cell(9);
   order: 1;
+  
+  @include breakpoint(small down) {
+    width: 50%;
+  }
 }
 
 .resource-grid {
@@ -421,6 +453,11 @@ body.vertical-menu footer {
 .omeka-pagination form {
   display: flex;
   align-items: center;
+}
+
+.omeka-pagination .button-group {
+  flex-wrap: nowrap;
+  flex-grow: 0;
 }
 
 .omeka-pagination form,
@@ -487,12 +524,23 @@ body.vertical-menu footer {
   order: 1;
   @include xy-cell(8);
   margin-left: 0;
+  
+  @include breakpoint(medium down) {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 
-.resource.show .media-embeds {
+.resource.show .media-embeds,
+.resource.show .media-list {
   order: 2;
   @include xy-cell(4);
   margin-right: 0;
+  
+  @include breakpoint(medium down) {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .resource.show .media-render > a:only-child {
@@ -566,9 +614,7 @@ body.vertical-menu footer {
 }
 
 #advanced-search .value {
-  @include breakpoint(small down) {
-    margin-bottom: $global-margin;
-  }
+  margin-bottom: $global-margin !important;
 }
 
 #advanced-search .query-text {
@@ -579,6 +625,10 @@ body.vertical-menu footer {
   @extend .fieldset;
 }
 
+#advanced-search .help-text {
+  margin-bottom: $global-margin;
+}
+
 #advanced-search .remove-value {
   padding-top: 0;
   padding-bottom: 0;
@@ -586,6 +636,10 @@ body.vertical-menu footer {
   @include breakpoint(small down) {
     margin-bottom: 0;
   }
+}
+
+#advanced-search .value > * {
+  margin-bottom: 0;
 }
 
 #advanced-search .value > *:not(:last-child) {
@@ -626,7 +680,15 @@ body.vertical-menu footer {
   @include xy-cell(3);
 
   @include breakpoint(small down) {
-    display: none;
+    @include xy-cell(12);
+    margin-bottom: $global-margin;
+  }
+}
+
+.wide.sub-menu a {
+  @include breakpoint(small down) {
+    padding-left: 0;
+    padding-right: 0;    
   }
 }
 
@@ -641,20 +703,26 @@ body.vertical-menu footer {
 .left {
   float: left;
   margin: 0 $global-margin $global-margin 0;
+  max-width: 40%;
+  
+  @include breakpoint(small down) {
+    max-width: 25%;
+  }
 }
 
 .right {
   float: right;
   margin: 0 0 $global-margin $global-margin;
+  max-width: 40%;  
+
+  @include breakpoint(small down) {
+    max-width: 25%;
+  }
 }
 
-.large.file {
-  max-width: 40%;
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
+.file img {
+  max-width: 100%;
+  height: auto;
 }
 
 .attachments .media-render > h3,
