@@ -48,7 +48,8 @@ $sortHeadings = [
     </ul>
   </div>
   <?php 
-    $resourceTemplates = $this->api()->search('resource_templates')->getContent();
+    $api = $this->api();
+    $resourceTemplates = $api->search('resource_templates')->getContent();
     array_shift($resourceTemplates);
     $resourceTemplateIds = [];
     foreach($resourceTemplates as $resourceTemplate) {
@@ -63,8 +64,8 @@ $sortHeadings = [
         'template' => true,
     ]);
 
-    $denominationFamiles = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
-    $denominationProperty = $this->api()->search('properties', ['term' => 'mare:denominationFamily', 'limit' => 1])->getContent();
+    $denominationFamiles = $api->search('items', ['resource_template_id' => $resourceTemplateIds['Denomination Family']])->getContent();
+    $denominationProperty = $api->search('properties', ['term' => 'mare:denominationFamily', 'limit' => 1])->getContent();
     $denominationFamilyPropertyId = $denominationProperty{0}->id();
     echo $this->partial('common/are-filter-select', [
         'heading' => 'Denomination family',
@@ -74,8 +75,8 @@ $sortHeadings = [
     ]);
 
 
-    $stateTerritories = $this->api()->search('items', ['resource_template_id' => $resourceTemplateIds['State/Territory']])->getContent();
-    $stateTerritoriesProperty = $this->api()->search('properties', ['term' => 'mare:stateTerritory', 'limit' => 1])->getContent();
+    $stateTerritories = $api->search('items', ['resource_template_id' => $resourceTemplateIds['State/Territory']])->getContent();
+    $stateTerritoriesProperty = $api->search('properties', ['term' => 'mare:stateTerritory', 'limit' => 1])->getContent();
     $stateTerritoriesPropertyId = $stateTerritoriesProperty{0}->id();
     echo $this->partial('common/are-filter-select', [
         'heading' => 'State/Territory',
@@ -86,11 +87,44 @@ $sortHeadings = [
   ?>
   <a href="<?php echo $this->url(null, ['action' => 'browse'], true); ?>" type="button" class="filter-submit button">Apply filters</></a>
 
-  <?php $singleDenominationProperty = $this->api()->search('properties', ['term' => 'mare:denomination'])->getContent(); ?>  
-  <?php $countyProperty = $this->api()->search('properties', ['term' => 'mare:county'])->getContent(); ?>  
-  <span class="filter-data denomination-id" data-property-id="<?php echo $singleDenominationProperty{0}->id(); ?>"></span>
-  <span class="filter-data county-id" data-property-id="<?php echo $countyProperty{0}->id(); ?>" ></span>
-  
+  <?php 
+      $singleDenominationProperty = $api->search('properties', ['term' => 'mare:denomination'])->getContent(); 
+      $countyProperty = $api->search('properties', ['term' => 'mare:county'])->getContent();
+      $singleDenominationPropertyId = $singleDenominationProperty{0}->id();
+      $countyPropertyId = $countyProperty{0}->id();
+  ?>
+  <div class="query-display">
+  <?php $query = $this->params()->fromQuery(); ?>
+  <?php 
+      $arePropertyIds = [$denominationFamilyPropertyId, $stateTerritoriesPropertyId, $singleDenominationPropertyId, $countyPropertyId];
+      $areCurrentFilters = [];
+      $index = 0;
+      foreach ($query as $key => $value) {
+          if (($value != null) && ($key == 'property')) {
+              foreach ($value as $queryRow) {
+                  if (!(is_array($queryRow)
+                      && array_key_exists('property', $queryRow)
+                      && array_key_exists('type', $queryRow)
+                  )) {
+                      continue;
+                  }
+                  $propertyId = $queryRow['property'];
+                  $queryType = $queryRow['type'];
+                  $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
+                  $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+                  
+                  if (array_search($propertyId, $arePropertyIds) !== false) {
+                      $areCurrentFilters[$propertyId][] = $value;                    
+                  }
+              }
+          }
+      }
+  ?>
+  <span class="filter-data denomination-family-id" data-property-id="<?php echo $denominationFamilyPropertyId; ?>" data-active-ids="<?php echo ($activeDenominationFamilies = $areCurrentFilters[$denominationFamilyPropertyId]) ? implode(",", $activeDenominationFamilies) : ''; ?>"></span>
+  <span class="filter-data state-territory-id" data-property-id="<?php echo $stateTerritoriesPropertyId; ?>" data-active-ids="<?php echo ($activeStateTerritories = $areCurrentFilters[$stateTerritoriesPropertyId]) ? implode(",", $activeStateTerritories) : ''; ?>"></span>
+  <span class="filter-data denomination-id" data-property-id="<?php echo $singleDenominationPropertyId; ?>" data-active-ids="<?php echo ($activeDenominations = $areCurrentFilters[$singleDenominationPropertyId]) ? implode(",", $activeDenominations) : ''; ?>"></span>
+  <span class="filter-data county-id" data-property-id="<?php echo $countyPropertyId; ?>"  data-active-ids="<?php echo ($activeCounties = $areCurrentFilters[$countyPropertyId]) ? implode(",", $activeCounties) : ''; ?>"></span>
+  </div>
 
 </div>
 
