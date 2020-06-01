@@ -29,25 +29,8 @@ header a {
   color: $black;
 }
 
-
-header .button {
-  border: 1px solid #000;
-  margin-left: -1px;
-}
-
-header .input-group-field {
-  border: 1px solid #000;
-  box-shadow: none;
-}
-
-a,
-.breadcrumbs a {
+a {
   color: $black;
-}
-
-body.vertical-menu header a {
-  color: #000;
-  text-decoration: underline;
 }
 
 label,
