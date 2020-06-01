@@ -5,23 +5,24 @@
         var selectedFilters = $('.selected-filters');
         var baseDomain = 'https://omeka.religiousecologies.org/api/items?';
         
-        var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam) {
-            if ($('.filter-select[data-resource-type="' + resourceType + '"]').length > 0) {
+        var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam, filterId) {
+            if ($('.filter-select[data-property-id="' + filterId + '"]').length > 0) {
+              console.log($('.filter-select[data-property-id="' + filterId + '"]').length);
               return;
             }
             var newFilterSelect = filterSelectTemplate.clone();
             var newFilterSelectInput = newFilterSelect.find('select');
-            newFilterSelect.attr('data-resource-type', resourceType); // resource type is 'denomination'
             var templateFilterKey = newFilterSelect.data('filter-key');
             var propertyId = $('.filter-data[data-resource-type="' + resourceType + '"]').data('property-id');
             var newFilterKey = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
+            newFilterSelect.attr('data-resource-type', resourceType); // resource type is 'denomination'
+            newFilterSelect.attr('data-property-id', filterId); // resource type is 'denomination'
             newFilterSelect.data('filterKey', newFilterKey);
-            $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect); // parentResourceType is 'denomination-family'
-            newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
+            $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect);             newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
             
             var apiSearchUrl = baseDomain + filterParam;
             newFilterSelect.find('h4').text(heading);
-            newFilterSelect.attr('data-updated', "true");
+            newFilterSelect.attr('data-updated', 'true');
             $.get(apiSearchUrl, function(data) {
                 $.each(data, function() {
                     newFilterSelectInput.append($('<option value="' + this['o:id'] + '">' + this['dcterms:title'][0]['@value'] + '</option>'));
@@ -29,7 +30,10 @@
                 });
             }).done(function() {
                 childData = $('.filter-data[data-resource-type="' + resourceType + '"]');
-                applyActiveFilters(childData);
+                if (!childData.hasClass('applied')) {
+                    childData.addClass('applied');
+                    applyActiveFilters(childData);                  
+                }                
             });
         };
         
@@ -62,11 +66,11 @@
             selectedFilters.parents('#filter-query').removeClass('empty');              
 
             if (chosenSelect.parents('[data-resource-type="denomination-family"]').length > 0) {
-              populateChildFilter('denomination', 'denomination-family', filterLabel, filterParam);
+              populateChildFilter('denomination', 'denomination-family', filterLabel, filterParam, filterId);
             }
             
             if (chosenSelect.parents('[data-resource-type="state-territory"]').length > 0) {
-              populateChildFilter('county', 'state-territory', filterLabel, filterParam);
+              populateChildFilter('county', 'state-territory', filterLabel, filterParam, filterId);
             }
             filterSelected.attr('disabled', true);
             
@@ -79,6 +83,7 @@
             var propertyId = filterData.data('propertyId');
             var resourceType = filterData.data('resourceType');
             var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
+            console.log(typeof(filterActivePropertyData));
             if (typeof(filterActivePropertyData) == 'string') {
               var activePropertyIds = filterActivePropertyData.split(',');
               if (filterContainer.length > 0) {
@@ -86,7 +91,7 @@
                   var filterOption = filterContainer.find('select option[value="' + value + '"]');
                   var filterLabel = filterOption.text();
                   var chosenSelect = filterContainer.find('select').first();
-                  updateFilterSelect(chosenSelect, filterActivePropertyData, filterOption, filterLabel, $('#are-filters').data('properties-index'));                
+                  updateFilterSelect(chosenSelect, value, filterOption, filterLabel, $('#are-filters').data('properties-index'));                
                 });
               }              
             } else {
