@@ -131,19 +131,15 @@ body.user-bar #content {
 }
 
 #home-intro {
-  @include xy-cell(3, $gutters: 0);
+  @include xy-cell(6, $gutters: 0);
   background-color: $body-background;
-  position: fixed;
-  top: 0;
-  left: xy-cell-size(2);
+  position: absolute;
+  top: (-1 * $global-margin);
+  left: -50%;
   bottom: 0;
   z-index:0;
-  padding: $global-padding;
+  padding: $global-padding (2 * $global-padding);
   font-size: .875 * $global-font-size;
-}
-
-body.user-bar #home-intro {
-  top: 2.25rem;
 }
 
 body.home #blocks > div:not(#home-intro) {
