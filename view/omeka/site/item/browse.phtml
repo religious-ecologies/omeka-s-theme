@@ -120,8 +120,8 @@ $sortHeadings = [
           }
       }
   ?>
-  <span class="filter-data" data-resource-type="denomination-family" data-property-id="<?php echo $denominationFamilyPropertyId; ?>" data-active-ids="<?php echo ($activeDenominationFamilies = $areCurrentFilters[$denominationFamilyPropertyId]) ? implode(",", $activeDenominationFamilies) : ''; ?>"></span>
-  <span class="filter-data" data-resource-type="state-territory" data-property-id="<?php echo $stateTerritoriesPropertyId; ?>" data-active-ids="<?php echo ($activeStateTerritories = $areCurrentFilters[$stateTerritoriesPropertyId]) ? implode(",", $activeStateTerritories) : ''; ?>"></span>
+  <span class="filter-data" data-resource-type="denomination-family" data-resource-child="denomination" data-property-id="<?php echo $denominationFamilyPropertyId; ?>" data-active-ids="<?php echo ($activeDenominationFamilies = $areCurrentFilters[$denominationFamilyPropertyId]) ? implode(",", $activeDenominationFamilies) : ''; ?>"></span>
+  <span class="filter-data" data-resource-type="state-territory" data-resource-child="county" data-property-id="<?php echo $stateTerritoriesPropertyId; ?>" data-active-ids="<?php echo ($activeStateTerritories = $areCurrentFilters[$stateTerritoriesPropertyId]) ? implode(",", $activeStateTerritories) : ''; ?>"></span>
   <span class="filter-data" data-resource-type="denomination" data-property-id="<?php echo $singleDenominationPropertyId; ?>" data-active-ids="<?php echo ($activeDenominations = $areCurrentFilters[$singleDenominationPropertyId]) ? implode(",", $activeDenominations) : ''; ?>"></span>
   <span class="filter-data" data-resource-type="county" data-property-id="<?php echo $countyPropertyId; ?>"  data-active-ids="<?php echo ($activeCounties = $areCurrentFilters[$countyPropertyId]) ? implode(",", $activeCounties) : ''; ?>"></span>
   </div>
