@@ -119,19 +119,8 @@
         var filterParam = filterContainer.data('filter-key') + '=' + filterId;
         var filterAnchor = filterLink.find('.filter-link');
         console.log('updateFilterSelect()');
-        if (filterParam.indexOf('INDEX') > -1) {
-          var indexString = 'INDEX';
-          indexString = new RegExp(indexString, 'g');
-          if (typeof propertiesIndex !== 'undefined') {
-            propertiesIndex = propertiesIndex + 1;                    
-            filterLink.data('index', propertiesIndex);
-          } else {
-            propertiesIndex = 0;
-            filterLink.data('index', 0);
-          }
-          $('#are-filters').data('properties-index', propertiesIndex);
-          filterParam = filterParam.replace(indexString, propertiesIndex);
-        }
+        var filterParam = updateQueryIndex(filterParam);
+        filterLink.data('index', propertiesIndex);
         filterAnchor.text(filterLabel);
         filterAnchor.attr({
           'data-filter-param': filterParam,
@@ -158,7 +147,6 @@
       if (!filterActivePropertyData) {
         return;
       }
-      console.log(filterActivePropertyData);
       var propertyId = filterData.data('propertyId');
       var resourceType = filterData.data('resourceType');
       var parentResourceType = filterData.data('parentResourceType');
@@ -174,14 +162,33 @@
         if (filterOption.length == 0) {
           $.get(baseDomain + 'items/' + value, function(data) {
             filterLabel = data[parentResourceType][0]['display_title'];
+            filterId = data[parentResourceType][0]['value_resource_id'];
             var filterParam = $('.filter-select[data-resource-type="' + parentResourceType + '"]').data('filterKey');
+            filterParam = updateQueryIndex(filterParam) + '=' + filterId;
             populateChildFilter(resourceType, parentResourceType, filterLabel, filterParam, propertyId);
           });
         }
         var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
         var chosenSelect = filterContainer.find('.chosen-select').first();
-        updateFilterSelect(chosenSelect, value, filterOption, filterLabel, $('#are-filters').data('properties-index'));                
+        var propertiesIndex = $('#are-filters').data('properties-index');
+        updateFilterSelect(chosenSelect, value, filterOption, filterLabel, propertiesIndex);                
       });
+    };
+    
+    var updateQueryIndex = function(filterParam) {
+      var propertiesIndex = $('#are-filters').data('properties-index');
+      if (filterParam.indexOf('INDEX') > -1) {
+        var indexString = 'INDEX';
+        indexString = new RegExp(indexString, 'g');
+        if (typeof propertiesIndex !== 'undefined') {
+          propertiesIndex = propertiesIndex + 1;                    
+        } else {
+          propertiesIndex = 0;
+        }
+        $('#are-filters').data('properties-index', propertiesIndex);
+        filterParam = filterParam.replace(indexString, propertiesIndex);
+        return filterParam;
+      }      
     };
 
 })(jQuery)
