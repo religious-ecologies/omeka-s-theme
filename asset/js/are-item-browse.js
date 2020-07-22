@@ -1,134 +1,8 @@
 (function($) {
-    $(document).ready(function() {
+    var baseDomain = 'https://omeka.religiousecologies.org/api/';
+        
+    $(document).ready(function() {        
         var filterSubmitButton = $('.filter-submit');
-        var filterSelectTemplate = $('[data-resource-type="template"]');
-        var selectedFilters = $('.selected-filters');
-        var baseDomain = 'https://omeka.religiousecologies.org/api/';
-        
-        var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam, filterId) {
-            if ($('.filter-select[data-property-id="' + filterId + '"]').length > 0) {
-              return;
-            }
-            console.log('populateChildFilter()');
-            var newFilterSelect = filterSelectTemplate.clone();
-            var newFilterSelectInput = newFilterSelect.find('select');
-            var templateFilterKey = newFilterSelect.data('filter-key');
-            var propertyId = $('.filter-data[data-resource-type="' + resourceType + '"]').data('property-id');
-            var newFilterKey = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
-            newFilterSelect.attr('data-resource-type', resourceType);
-            newFilterSelect.attr('data-property-id', filterId); 
-            newFilterSelect.data('filterKey', newFilterKey);
-            $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect);
-            newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
-            
-            var apiSearchUrl = baseDomain + 'items?' + filterParam;
-            if (!heading) {
-              // If there's no heading, look up the active id
-              console.log(resourceType);
-              // TODO: populate missing info from API request
-              var filterApiSearchUrl = baseDomain + 'items/' + propertyId;
-              $.get(filterApiSearchUrl, function(data) {
-                console.log('test');
-              });
-            }
-            newFilterSelect.find('h4').text(heading);
-            newFilterSelect.attr('data-updated', 'true');
-            $.get(apiSearchUrl, function(data) {
-                $.each(data, function() {
-                    newFilterSelectInput.append($('<option value="' + this['o:id'] + '">' + this['dcterms:title'][0]['@value'] + '</option>'));
-                    newFilterSelectInput.trigger('chosen:updated');
-                });
-            }).done(function() {
-                childData = $('.filter-data[data-resource-type="' + resourceType + '"]');
-                if (!childData.hasClass('applied')) {
-                    childData.addClass('applied');
-                    applyActiveFilters(childData);                  
-                }                
-            });
-        };
-        
-        var updateFilterSelect = function(chosenSelect, filterId, filterSelected, filterLabel, propertiesIndex) {
-            var filterContainer = filterSelected.parents('.filter-select');
-            var filterTemplate = filterContainer.data('filter-link-template');
-            var filterLink = $(filterTemplate);
-            var filterParam = filterContainer.data('filter-key') + '=' + filterId;
-            var filterAnchor = filterLink.find('.filter-link');
-            console.log('updateFilterSelect()');
-            if (filterParam.indexOf('INDEX') > -1) {
-              var indexString = 'INDEX';
-              indexString = new RegExp(indexString, 'g');
-              if (typeof propertiesIndex !== 'undefined') {
-                propertiesIndex = propertiesIndex + 1;                    
-                filterLink.data('index', propertiesIndex);
-              } else {
-                propertiesIndex = 0;
-                filterLink.data('index', 0);
-              }
-              $('#are-filters').data('properties-index', propertiesIndex);
-              filterParam = filterParam.replace(indexString, propertiesIndex);
-            }
-            filterAnchor.text(filterLabel);
-            filterAnchor.attr({
-              'data-filter-param': filterParam,
-              'data-filter-id': filterId,
-              'data-resource-type': filterContainer.data('resource-type')
-            });
-            filterLink.appendTo(selectedFilters);
-            selectedFilters.parents('#filter-query').removeClass('empty');              
-            if (chosenSelect.parents('[data-resource-type="denomination-family"]').length > 0) {
-              populateChildFilter('denomination', 'denomination-family', filterLabel, filterParam, filterId);
-            }
-            
-            if (chosenSelect.parents('[data-resource-type="state-territory"]').length > 0) {
-              populateChildFilter('county', 'state-territory', filterLabel, filterParam, filterId);
-            }
-            filterSelected.attr('disabled', true);
-            
-            chosenSelect.val('').trigger('chosen:updated');          
-        };
-        
-        var applyActiveFilters = function(filterData) {
-          var filterActivePropertyData = filterData.data('activeIds');
-          console.log('applyActiveFilters()');
-          if (!filterActivePropertyData) {
-            return;
-          }
-          console.log(filterActivePropertyData);
-          var propertyId = filterData.data('propertyId');
-          var resourceType = filterData.data('resourceType');
-          var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
-          if (typeof(filterActivePropertyData) == 'string') {
-            var activePropertyIds = filterActivePropertyData.split(',');
-            $.each(activePropertyIds, function(index, value) {
-              var filterOption = filterContainer.find('select option[value="' + value + '"]');
-              var filterLabel = filterOption.text();
-              var chosenSelect = filterContainer.find('select').first();
-              checkExistingFilterSelect(value);
-              updateFilterSelect(chosenSelect, value, filterOption, filterLabel, $('#are-filters').data('properties-index'));                
-            });
-          } else {
-            // if there is only one active id
-            checkExistingFilterSelect(filterActivePropertyData);
-            var filterOption = filterContainer.find('select option[value="' + filterActivePropertyData + '"]');
-            var filterLabel = filterOption.text();
-            var chosenSelect = filterContainer.find('select').first();
-            updateFilterSelect(chosenSelect, filterActivePropertyData, filterOption, filterLabel, $('#are-filters').data('properties-index'));                
-          }
-        };
-        
-        var checkExistingFilterSelect = function(propertyId) {
-            // Checks if a property exists within an existing filter select.
-            var propertyOption = $('.filter-select option[value="' + propertyId + '"]');
-            if (propertyOption.length == 0) {
-              console.log('filter select does not exist');
-              $.get(basedomain + 'items/' + propertyId, function(data) {
-                console.log(data);
-              });
-            } else {
-              console.log('filter select exists');
-            }
-        };
-        
         // Chosen select population, taken from Omeka's admin.js
       
         $('.chosen-select').chosen(chosenOptions);
@@ -196,17 +70,118 @@
         
         // Check for active filters
         
-        $('.filter-data.parent').each(function() {
+        $('.filter-data').each(function() {
             var filterData = $(this);
-            var filterChildResource = filterData.data('resourceChild');
             if (filterData.data('activeIds') !== "") {
                 applyActiveFilters(filterData);
-            } else {
-              var filterChildData = $('.filter-data[data-resource-type="' + filterChildResource + '"]');
-              if (filterChildData.data('activeIds') !== '') {
-                applyActiveFilters(filterChildData);
-              }
             }
         });
     });
+    
+    var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam, filterId) {
+        if ($('.filter-select[data-property-id="' + filterId + '"]').length > 0) {
+          return;
+        }
+        console.log('populateChildFilter()');
+        var newFilterSelect = $('[data-resource-type="template"]').clone();
+        var newFilterSelectInput = newFilterSelect.find('select');
+        var templateFilterKey = newFilterSelect.data('filter-key');
+        var propertyId = $('.filter-data[data-resource-type="' + resourceType + '"]').data('property-id');
+        var newFilterKey = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
+        newFilterSelect.attr('data-resource-type', resourceType);
+        newFilterSelect.attr('data-property-id', filterId); 
+        newFilterSelect.data('filterKey', newFilterKey);
+        $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect);
+        newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
+        
+        var apiSearchUrl = baseDomain + 'items?' + filterParam;
+        newFilterSelect.find('h4').text(heading);
+        newFilterSelect.attr('data-updated', 'true');
+        $.get(apiSearchUrl, function(data) {
+            $.each(data, function() {
+                newFilterSelectInput.append($('<option value="' + this['o:id'] + '">' + this['dcterms:title'][0]['@value'] + '</option>'));
+                newFilterSelectInput.trigger('chosen:updated');
+            });
+        }).done(function() {
+            childData = $('.filter-data[data-resource-type="' + resourceType + '"]');
+            if (!childData.hasClass('applied')) {
+                childData.addClass('applied');
+                applyActiveFilters(childData);                  
+            }                
+        });
+    };
+    
+    var updateFilterSelect = function(chosenSelect, filterId, filterSelected, filterLabel, propertiesIndex) {
+        var selectedFilters = $('.selected-filters');
+        var filterContainer = filterSelected.parents('.filter-select');
+        var filterTemplate = filterContainer.data('filter-link-template');
+        var filterLink = $(filterTemplate);
+        var filterParam = filterContainer.data('filter-key') + '=' + filterId;
+        var filterAnchor = filterLink.find('.filter-link');
+        console.log('updateFilterSelect()');
+        if (filterParam.indexOf('INDEX') > -1) {
+          var indexString = 'INDEX';
+          indexString = new RegExp(indexString, 'g');
+          if (typeof propertiesIndex !== 'undefined') {
+            propertiesIndex = propertiesIndex + 1;                    
+            filterLink.data('index', propertiesIndex);
+          } else {
+            propertiesIndex = 0;
+            filterLink.data('index', 0);
+          }
+          $('#are-filters').data('properties-index', propertiesIndex);
+          filterParam = filterParam.replace(indexString, propertiesIndex);
+        }
+        filterAnchor.text(filterLabel);
+        filterAnchor.attr({
+          'data-filter-param': filterParam,
+          'data-filter-id': filterId,
+          'data-resource-type': filterContainer.data('resource-type')
+        });
+        filterLink.appendTo(selectedFilters);
+        selectedFilters.parents('#filter-query').removeClass('empty');              
+        if (chosenSelect.parents('[data-resource-type="denomination-family"]').length > 0) {
+          populateChildFilter('denomination', 'denomination-family', filterLabel, filterParam, filterId);
+        }
+        
+        if (chosenSelect.parents('[data-resource-type="state-territory"]').length > 0) {
+          populateChildFilter('county', 'state-territory', filterLabel, filterParam, filterId);
+        }
+        filterSelected.attr('disabled', true);
+        
+        chosenSelect.val('').trigger('chosen:updated');          
+    };
+    
+    var applyActiveFilters = function(filterData) {
+      var filterActivePropertyData = filterData.data('activeIds');
+      console.log('applyActiveFilters()');
+      if (!filterActivePropertyData) {
+        return;
+      }
+      console.log(filterActivePropertyData);
+      var propertyId = filterData.data('propertyId');
+      var resourceType = filterData.data('resourceType');
+      var parentResourceType = filterData.data('parentResourceType');
+      var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
+      if (typeof(filterActivePropertyData) == 'string') {
+        var activePropertyIds = filterActivePropertyData.split(',');
+      } else {
+        var activePropertyIds = [filterActivePropertyData];
+      }
+      $.each(activePropertyIds, function(index, value) {
+        var filterOption = $('.filter-select option[value="' + value + '"]');
+        var filterLabel = '';
+        if (filterOption.length == 0) {
+          $.get(baseDomain + 'items/' + value, function(data) {
+            filterLabel = data[parentResourceType][0]['display_title'];
+            var filterParam = $('.filter-select[data-resource-type="' + parentResourceType + '"]').data('filterKey');
+            populateChildFilter(resourceType, parentResourceType, filterLabel, filterParam, propertyId);
+          });
+        }
+        var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
+        var chosenSelect = filterContainer.find('.chosen-select').first();
+        updateFilterSelect(chosenSelect, value, filterOption, filterLabel, $('#are-filters').data('properties-index'));                
+      });
+    };
+
 })(jQuery)

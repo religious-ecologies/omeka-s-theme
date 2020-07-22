@@ -187,6 +187,10 @@ body.home #blocks > div:not(#home-intro) {
     margin-bottom: $global-margin;
   }
   
+  .filter-select:not(:first-child) {
+    padding-left: $global-padding;
+  }
+  
   .filter-select[data-resource-type="template"],
   .empty,
   .filter-data {

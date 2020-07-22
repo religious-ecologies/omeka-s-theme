@@ -1,14 +1,16 @@
 <?php	
 $dataFilterLinkHtml = '<li><select name="joiner"><option value="and">and</option><option value="or" selected>or</option></select><a href="#" class="filter-link"></a><button type="button" class="o-icon-close clear-filter" aria-label="Clear filter"></button></li>';
 ?>
-<div class="filter-select" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' data-filter-key='<?php echo $filterKey; ?>' data-resource-type="<?php echo $filterResourceType; ?>">
-    <h4><?php echo $heading; ?></h4>
-    <select <?php echo (isset($template)) ? '' : 'class="chosen-select"'; ?> name="resource-template-filter" data-placeholder="Select a filter">
-      <option value=""></option>
-      <?php foreach ($filterResources as $filterResource): ?>
-      <option value="<?php echo $filterResource->id(); ?>">
-          <?php echo $filterResource->title(); ?>
-      </option>
-      <?php endforeach; ?>
-    </select>
+<div class="filter-family">
+    <div class="filter-select" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' data-filter-key='<?php echo $filterKey; ?>' data-resource-type="<?php echo $filterResourceType; ?>">
+        <h4><?php echo $heading; ?></h4>
+        <select <?php echo (isset($template)) ? '' : 'class="chosen-select"'; ?> name="resource-template-filter" data-placeholder="Select a filter">
+          <option value=""></option>
+          <?php foreach ($filterResources as $filterResource): ?>
+          <option value="<?php echo $filterResource->id(); ?>">
+              <?php echo $filterResource->title(); ?>
+          </option>
+          <?php endforeach; ?>
+        </select>
+    </div>
 </div>
