@@ -82,7 +82,7 @@
         if ($('.filter-select[data-property-id="' + filterId + '"]').length > 0) {
           return;
         }
-        console.log('populateChildFilter()');
+        console.log('populateChildFilter(): ' + heading);
         var newFilterSelect = $('[data-resource-type="template"]').clone();
         var newFilterSelectInput = newFilterSelect.find('select');
         var templateFilterKey = newFilterSelect.data('filter-key');
@@ -107,7 +107,7 @@
             if (!childData.hasClass('applied')) {
                 childData.addClass('applied');
                 applyActiveFilters(childData);                  
-            }                
+            }
         });
     };
     
@@ -118,7 +118,7 @@
         var filterLink = $(filterTemplate);
         var filterParam = filterContainer.data('filter-key') + '=' + filterId;
         var filterAnchor = filterLink.find('.filter-link');
-        console.log('updateFilterSelect()');
+        console.log('updateFilterSelect(): ' + filterLabel);
         var filterParam = updateQueryIndex(filterParam);
         filterLink.data('index', propertiesIndex);
         filterAnchor.text(filterLabel);
@@ -129,12 +129,12 @@
         });
         filterLink.appendTo(selectedFilters);
         selectedFilters.parents('#filter-query').removeClass('empty');              
-        if (chosenSelect.parents('[data-resource-type="denomination-family"]').length > 0) {
-          populateChildFilter('denomination', 'denomination-family', filterLabel, filterParam, filterId);
+        if (chosenSelect.parents('[data-resource-type="mare:denominationFamily"]').length > 0) {
+          populateChildFilter('denomination', 'mare:denominationFamily', filterLabel, filterParam, filterId);
         }
         
-        if (chosenSelect.parents('[data-resource-type="state-territory"]').length > 0) {
-          populateChildFilter('county', 'state-territory', filterLabel, filterParam, filterId);
+        if (chosenSelect.parents('[data-resource-type="mare:stateTerritory"]').length > 0) {
+          populateChildFilter('county', 'mare:stateTerritory', filterLabel, filterParam, filterId);
         }
         filterSelected.attr('disabled', true);
         
@@ -158,20 +158,24 @@
       }
       $.each(activePropertyIds, function(index, value) {
         var filterOption = $('.filter-select option[value="' + value + '"]');
+        var parentFilterLabel = '';
         var filterLabel = '';
+        var propertiesIndex = $('#are-filters').data('properties-index');
         if (filterOption.length == 0) {
           $.get(baseDomain + 'items/' + value, function(data) {
-            filterLabel = data[parentResourceType][0]['display_title'];
+            filterLabel = data['o:title'];
+              parentFilterLabel = data[parentResourceType][0]['display_title'];
             filterId = data[parentResourceType][0]['value_resource_id'];
             var filterParam = $('.filter-select[data-resource-type="' + parentResourceType + '"]').data('filterKey');
             filterParam = updateQueryIndex(filterParam) + '=' + filterId;
-            populateChildFilter(resourceType, parentResourceType, filterLabel, filterParam, propertyId);
+            populateChildFilter(resourceType, parentResourceType, parentFilterLabel, filterParam, propertyId);
+            var filterParentOption = $('.filter-select option[value="' + filterId + '"]');
+            if(filterParentOption.attr('disabled') !== true) {
+              filterParentOption.attr('disabled', true);
+            }
+            updateFilterSelect($('.filter-select[data-resource-type="' + resourceType + '"]'), filterId, filterParentOption, filterLabel, propertiesIndex);
           });
         }
-        var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
-        var chosenSelect = filterContainer.find('.chosen-select').first();
-        var propertiesIndex = $('#are-filters').data('properties-index');
-        updateFilterSelect(chosenSelect, value, filterOption, filterLabel, propertiesIndex);                
       });
     };
     
