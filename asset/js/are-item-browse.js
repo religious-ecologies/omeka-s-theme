@@ -31,7 +31,7 @@
             var filterId = filterSelected.val();
             var propertiesIndex = $('#are-filters').data('properties-index');
             if (filterId > 0) {
-                updateFilterSelect($(this), filterId, filterSelected, filterLabel, propertiesIndex);
+                updateFilterSelect($(this), filterId, filterLabel, propertiesIndex);
             }
         });
         
@@ -82,75 +82,80 @@
         if ($('.filter-select[data-property-id="' + filterId + '"]').length > 0) {
           return;
         }
-        console.log('populateChildFilter(): ' + heading);
         var newFilterSelect = $('[data-resource-type="template"]').clone();
         var newFilterSelectInput = newFilterSelect.find('select');
-        var templateFilterKey = newFilterSelect.data('filter-key');
         var propertyId = $('.filter-data[data-resource-type="' + resourceType + '"]').data('property-id');
+
+        var templateFilterKey = newFilterSelect.data('filter-key');
         var newFilterKey = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
+        newFilterSelect.data('filterKey', newFilterKey);
+
         newFilterSelect.attr('data-resource-type', resourceType);
         newFilterSelect.attr('data-property-id', filterId); 
-        newFilterSelect.data('filterKey', newFilterKey);
         $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect);
         newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
         
         var apiSearchUrl = baseDomain + 'items?' + filterParam;
+        newFilterSelect.addClass('child');
         newFilterSelect.find('h4').text(heading);
         newFilterSelect.attr('data-updated', 'true');
         $.get(apiSearchUrl, function(data) {
             $.each(data, function() {
-                newFilterSelectInput.append($('<option value="' + this['o:id'] + '">' + this['dcterms:title'][0]['@value'] + '</option>'));
+                var newOption = $('<option value="' + this['o:id'] + '">' + this['dcterms:title'][0]['@value'] + '</option>');
+                if ($('.filter-link[data-filter-id="' + this['o:id'] + '"]').length > 0) {
+                  newOption.attr('disabled', true);
+                }
+                newFilterSelectInput.append(newOption);
                 newFilterSelectInput.trigger('chosen:updated');
             });
-        }).done(function() {
-            childData = $('.filter-data[data-resource-type="' + resourceType + '"]');
-            if (!childData.hasClass('applied')) {
-                childData.addClass('applied');
-                applyActiveFilters(childData);                  
-            }
         });
     };
     
-    var updateFilterSelect = function(chosenSelect, filterId, filterSelected, filterLabel, propertiesIndex) {
-        var selectedFilters = $('.selected-filters');
-        var filterContainer = filterSelected.parents('.filter-select');
-        var filterTemplate = filterContainer.data('filter-link-template');
-        var filterLink = $(filterTemplate);
+    var updateFilterSelect = function(chosenSelect, filterId, filterLabel, propertiesIndex) {
+        var filterContainer = chosenSelect.parents('.filter-select');
         var filterParam = filterContainer.data('filter-key') + '=' + filterId;
-        var filterAnchor = filterLink.find('.filter-link');
-        console.log('updateFilterSelect(): ' + filterLabel);
         var filterParam = updateQueryIndex(filterParam);
-        filterLink.data('index', propertiesIndex);
-        filterAnchor.text(filterLabel);
-        filterAnchor.attr({
-          'data-filter-param': filterParam,
-          'data-filter-id': filterId,
-          'data-resource-type': filterContainer.data('resource-type')
-        });
-        filterLink.appendTo(selectedFilters);
-        selectedFilters.parents('#filter-query').removeClass('empty');              
+        
+        if (filterContainer.hasClass('child')) {
+          addSelectedFilter(propertiesIndex, filterParam, filterId, filterContainer.data('resource-type'), filterLabel);           
+        }
+
         if (chosenSelect.parents('[data-resource-type="mare:denominationFamily"]').length > 0) {
-          populateChildFilter('denomination', 'mare:denominationFamily', filterLabel, filterParam, filterId);
+          populateChildFilter('mare:denomination', 'mare:denominationFamily', filterLabel, filterParam, filterId);
         }
         
         if (chosenSelect.parents('[data-resource-type="mare:stateTerritory"]').length > 0) {
-          populateChildFilter('county', 'mare:stateTerritory', filterLabel, filterParam, filterId);
+          populateChildFilter('mare:county', 'mare:stateTerritory', filterLabel, filterParam, filterId);
         }
+        var filterSelected = chosenSelect.find('[value="' + filterId + '"]');
         filterSelected.attr('disabled', true);
         
         chosenSelect.val('').trigger('chosen:updated');          
     };
     
+    var addSelectedFilter = function(propertiesIndex, filterParam, filterId, resourceType, filterLabel) {
+        var selectedFilters = $('.selected-filters');
+        var filterLink = $(selectedFilters.data('filterLinkTemplate'));
+        var filterAnchor = filterLink.find('.filter-link');
+        filterLink.data('index', propertiesIndex);
+        filterAnchor.text(filterLabel);
+        filterAnchor.attr({
+          'data-filter-param': filterParam,
+          'data-filter-id': filterId,
+          'data-resource-type': resourceType
+        });
+        filterLink.appendTo(selectedFilters);
+        selectedFilters.parents('#filter-query').removeClass('empty');          
+    };
+    
     var applyActiveFilters = function(filterData) {
       var filterActivePropertyData = filterData.data('activeIds');
-      console.log('applyActiveFilters()');
       if (!filterActivePropertyData) {
         return;
       }
       var propertyId = filterData.data('propertyId');
       var resourceType = filterData.data('resourceType');
       var parentResourceType = filterData.data('parentResourceType');
-      var filterContainer = $('.filter-select[data-resource-type="' + resourceType + '"]');
       if (typeof(filterActivePropertyData) == 'string') {
         var activePropertyIds = filterActivePropertyData.split(',');
       } else {
@@ -158,22 +163,16 @@
       }
       $.each(activePropertyIds, function(index, value) {
         var filterOption = $('.filter-select option[value="' + value + '"]');
-        var parentFilterLabel = '';
-        var filterLabel = '';
         var propertiesIndex = $('#are-filters').data('properties-index');
         if (filterOption.length == 0) {
           $.get(baseDomain + 'items/' + value, function(data) {
-            filterLabel = data['o:title'];
-              parentFilterLabel = data[parentResourceType][0]['display_title'];
+            var filterLabel = data['o:title'];
+            var parentFilterLabel = data[parentResourceType][0]['display_title'];
             filterId = data[parentResourceType][0]['value_resource_id'];
-            var filterParam = $('.filter-select[data-resource-type="' + parentResourceType + '"]').data('filterKey');
-            filterParam = updateQueryIndex(filterParam) + '=' + filterId;
-            populateChildFilter(resourceType, parentResourceType, parentFilterLabel, filterParam, propertyId);
-            var filterParentOption = $('.filter-select option[value="' + filterId + '"]');
-            if(filterParentOption.attr('disabled') !== true) {
-              filterParentOption.attr('disabled', true);
-            }
-            updateFilterSelect($('.filter-select[data-resource-type="' + resourceType + '"]'), filterId, filterParentOption, filterLabel, propertiesIndex);
+            var templateFilterKey = $('[data-resource-type="template"]').data('filter-key');
+            var filterParam = templateFilterKey.replace('$TEMPLATE-ID', propertyId);
+            filterParam = updateQueryIndex(filterParam) + '=' + value;
+            addSelectedFilter(propertiesIndex, filterParam, value, resourceType, filterLabel);
           });
         }
       });

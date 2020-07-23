@@ -44,7 +44,10 @@ $sortHeadings = [
 <div id="are-filters">
   <div id="filter-query" class="empty">
     <h4>Selected filters</h4>
-    <ul class="selected-filters">
+    <?php	
+      $dataFilterLinkHtml = '<li><select name="joiner"><option value="and">and</option><option value="or" selected>or</option></select><a href="#" class="filter-link"></a><button type="button" class="o-icon-close clear-filter" aria-label="Clear filter"></button></li>';
+    ?>
+    <ul class="selected-filters" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' >
     </ul>
   </div>
   <?php 
