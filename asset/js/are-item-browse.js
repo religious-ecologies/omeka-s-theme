@@ -78,7 +78,7 @@
         });
     });
     
-    var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam, filterId) {
+    var populateChildFilter = function(resourceType, parentResourceType, heading, filterParam, filterId, resourceTemplateId) {
         if ($('.filter-select[data-property-id="' + filterId + '"]').length > 0) {
           return;
         }
@@ -95,7 +95,7 @@
         $('.filter-select[data-resource-type="' + parentResourceType + '"]').after(newFilterSelect);
         newFilterSelectInput.addClass('chosen-select').chosen(chosenOptions);
         
-        var apiSearchUrl = baseDomain + 'items?' + filterParam;
+        var apiSearchUrl = baseDomain + 'items?' + filterParam + '&per_page=1000&resource_template_id[]=' + resourceTemplateId;
         newFilterSelect.addClass('child');
         newFilterSelect.find('h4').text(heading);
         newFilterSelect.attr('data-updated', 'true');
@@ -111,21 +111,22 @@
         });
     };
     
-    var updateFilterSelect = function(chosenSelect, filterId, filterLabel, propertiesIndex) {
+    var updateFilterSelect = function(chosenSelect, filterId, filterLabel, propertiesIndex, resourceTemplateId) {
         var filterContainer = chosenSelect.parents('.filter-select');
         var filterParam = filterContainer.data('filter-key') + '=' + filterId;
         var filterParam = updateQueryIndex(filterParam);
+        var resourceTemplateId = filterContainer.data('resource-template-id');
         
         if (filterContainer.hasClass('child')) {
           addSelectedFilter(propertiesIndex, filterParam, filterId, filterContainer.data('resource-type'), filterLabel);           
         }
 
         if (chosenSelect.parents('[data-resource-type="mare:denominationFamily"]').length > 0) {
-          populateChildFilter('mare:denomination', 'mare:denominationFamily', filterLabel, filterParam, filterId);
+          populateChildFilter('mare:denomination', 'mare:denominationFamily', filterLabel, filterParam, filterId, resourceTemplateId);
         }
         
         if (chosenSelect.parents('[data-resource-type="mare:stateTerritory"]').length > 0) {
-          populateChildFilter('mare:county', 'mare:stateTerritory', filterLabel, filterParam, filterId);
+          populateChildFilter('mare:county', 'mare:stateTerritory', filterLabel, filterParam, filterId, resourceTemplateId);
         }
         var filterSelected = chosenSelect.find('[value="' + filterId + '"]');
         filterSelected.attr('disabled', true);
@@ -133,7 +134,10 @@
         chosenSelect.val('').trigger('chosen:updated');          
     };
     
-    var addSelectedFilter = function(propertiesIndex, filterParam, filterId, resourceType, filterLabel) {
+    var addSelectedFilter = function(propertiesIndex, filterParam, filterId, resourceType, filterLabel, joiner) {
+        if (joiner == undefined) {
+          var joiner = "OR";
+        }
         var selectedFilters = $('.selected-filters');
         var filterLink = $(selectedFilters.data('filterLinkTemplate'));
         var filterAnchor = filterLink.find('.filter-link');

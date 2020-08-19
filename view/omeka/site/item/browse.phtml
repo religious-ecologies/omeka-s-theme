@@ -74,7 +74,8 @@ $sortHeadings = [
         'heading' => 'Denomination family',
         'filterResourceType' => 'mare:denominationFamily',
         'filterResources' => $denominationFamiles,
-        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $denominationFamilyPropertyId . '&property[INDEX][type]=res&property[INDEX][text]'
+        'filterKey' => 'resource_class_id[]=109property[INDEX][joiner]=or&property[INDEX][property]=' . $denominationFamilyPropertyId . '&property[INDEX][type]=res&property[INDEX][text]',
+        'resourceTemplateId' => $resourceTemplateIds['Denomination']
     ]);
 
 
@@ -85,7 +86,8 @@ $sortHeadings = [
         'heading' => 'State/Territory',
         'filterResourceType' => 'mare:stateTerritory',
         'filterResources' => $stateTerritories,
-        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $stateTerritoriesPropertyId . '&property[INDEX][type]=res&property[INDEX][text]'
+        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $stateTerritoriesPropertyId . '&property[INDEX][type]=res&property[INDEX][text]',
+        'resourceTemplateId' => $resourceTemplateIds['County']
     ]);
   ?>
   <a href="<?php echo $this->url(null, ['action' => 'browse'], true); ?>" type="button" class="filter-submit button">Apply filters</></a>
