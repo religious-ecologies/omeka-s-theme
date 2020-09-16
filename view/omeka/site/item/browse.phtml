@@ -42,13 +42,18 @@ $sortHeadings = [
 ?>
 
 <div id="are-filters">
-  <div id="filter-query" class="empty">
+  <form method="GET" action="">
+  <?php $dataFilterLinkHtml = '<li><input type="hidden" name="" class="mare-value"><a href="#" class="filter-link"></a><button type="button" class="o-icon-close clear-filter" aria-label="Clear filter"></button></li>'; ?>
+  <div id="selected-filters" class="empty" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' >
     <h4>Selected filters</h4>
-    <?php	
-      $dataFilterLinkHtml = '<li><select name="joiner"><option value="and">and</option><option value="or" selected>or</option></select><a href="#" class="filter-link"></a><button type="button" class="o-icon-close clear-filter" aria-label="Clear filter"></button></li>';
-    ?>
-    <ul class="selected-filters" data-filter-link-template='<?php echo $dataFilterLinkHtml; ?>' >
-    </ul>
+    <div class="denominations empty" data-resource-type="mare:denomination">
+      <h5>Denominations</h5>
+      <ul class="filters"></ul>
+    </div>
+    <div class="counties empty" data-resource-type="mare:county">
+      <h5>Counties</h5>
+      <ul class="filters"></ul>
+    </div>
   </div>
   <?php 
     $api = $this->api();
@@ -63,7 +68,6 @@ $sortHeadings = [
         'heading' => 'Template',
         'filterResourceType' => 'template',
         'filterResources' => [],
-        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=$TEMPLATE-ID&property[INDEX][type]=res&property[INDEX][text]',
         'template' => true,
     ]);
 
@@ -74,7 +78,6 @@ $sortHeadings = [
         'heading' => 'Denomination family',
         'filterResourceType' => 'mare:denominationFamily',
         'filterResources' => $denominationFamiles,
-        'filterKey' => 'resource_class_id[]=109property[INDEX][joiner]=or&property[INDEX][property]=' . $denominationFamilyPropertyId . '&property[INDEX][type]=res&property[INDEX][text]',
         'resourceTemplateId' => $resourceTemplateIds['Denomination']
     ]);
 
@@ -86,11 +89,10 @@ $sortHeadings = [
         'heading' => 'State/Territory',
         'filterResourceType' => 'mare:stateTerritory',
         'filterResources' => $stateTerritories,
-        'filterKey' => 'property[INDEX][joiner]=or&property[INDEX][property]=' . $stateTerritoriesPropertyId . '&property[INDEX][type]=res&property[INDEX][text]',
         'resourceTemplateId' => $resourceTemplateIds['County']
     ]);
   ?>
-  <a href="<?php echo $this->url(null, ['action' => 'browse'], true); ?>" type="button" class="filter-submit button">Apply filters</></a>
+  <button type="submit" class="filter-submit button">Apply filters</button>
 
   <?php 
       $singleDenominationProperty = $api->search('properties', ['term' => 'mare:denomination'])->getContent(); 
@@ -125,10 +127,10 @@ $sortHeadings = [
           }
       }
   ?>
-  <span class="filter-data" data-resource-type="mare:denomination" data-parent-resource-type="mare:denominationFamily" data-property-id="<?php echo $singleDenominationPropertyId; ?>" data-active-ids="<?php echo ($activeDenominations = $areCurrentFilters[$singleDenominationPropertyId]) ? implode(",", $activeDenominations) : ''; ?>"></span>
-  <span class="filter-data" data-resource-type="mare:county" data-parent-resource-type="mare:stateTerritory" data-property-id="<?php echo $countyPropertyId; ?>"  data-active-ids="<?php echo ($activeCounties = $areCurrentFilters[$countyPropertyId]) ? implode(",", $activeCounties) : ''; ?>"></span>
+  <span class="filter-data" data-resource-type="mare:denomination" data-parent-resource-type="mare:denominationFamily" data-parent-property-id="<?php echo $denominationFamilyPropertyId; ?>" data-active-ids="<?php echo ($activeDenominations = $areCurrentFilters[$singleDenominationPropertyId]) ? implode(",", $activeDenominations) : ''; ?>"></span>
+  <span class="filter-data" data-resource-type="mare:county" data-parent-resource-type="mare:stateTerritory" data-parent-property-id="<?php echo $stateTerritoriesPropertyId; ?>"  data-active-ids="<?php echo ($activeCounties = $areCurrentFilters[$countyPropertyId]) ? implode(",", $activeCounties) : ''; ?>"></span>
   </div>
-
+  </form>
 </div>
 
 <?php if ($itemSetShow): ?>

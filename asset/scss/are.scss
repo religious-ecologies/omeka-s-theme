@@ -197,11 +197,22 @@ body.home #blocks > div:not(#home-intro) {
     display: none;
   }
   
-  .selected-filters {
-    margin-bottom: (.5 * $global-margin);
+  #selected-filters {
+    margin-bottom: $global-margin;
+  }
+  
+  #selected-filters h4 {
+    margin-bottom: $global-margin;
+  }
+  
+  #selected-filters h5 {
+    font-family: $body-font-family;
+    font-weight: normal;
+    font-size: $global-font-size;
+    margin-bottom: 0;
   }
 
-  .selected-filters li {
+  #selected-filters li {
     display: flex;
     justify-content: space-between;
     align-items: center;
