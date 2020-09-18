@@ -122,7 +122,7 @@ body:not(.browse) #content {
 body.home #content,
 body.denominations #content,
 body.locations #content,
-body.item.browse #content {
+body.item.browse:not(.item-set) #content {
   padding-left: calc(#{xy-cell-size(5)} + #{$global-margin});
 }
 
