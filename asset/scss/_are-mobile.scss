@@ -1,0 +1,313 @@
+body.vertical-menu {
+  background-color: $body-background;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+}
+
+img,
+a img,
+table {
+  border: 1px solid $primary-color;
+  box-shadow: 5px 5px 0 $primary-color;
+  margin-bottom: .5 * $global-margin;
+}
+
+thead, 
+tbody, 
+tfoot {
+  border: 0;
+}
+
+thead, 
+tbody {
+  border-left: 1px solid $primary-color;
+}
+
+tbody {
+  border-bottom: 1px solid $primary-color;
+}
+
+
+header .vertical.menu {
+  font-family: $secondary-header-font-family;
+  
+  li {
+    margin-bottom: .25 * $global-margin;
+    
+    &:not(:last-child) {
+      border-bottom: 1px solid $medium-gray;
+    }
+  }
+}
+
+.title-bar {
+  background-color: $light-gray;
+  padding: (.25 * $global-padding);
+}
+
+body.vertical-menu header .title-bar button {
+  color: $primary-color;
+  margin-right: .25 * $global-padding;
+}
+
+.blocks > h2:first-child {
+  margin-bottom: $global-margin;
+}
+
+.menu .active > a {
+  background-color: transparent;
+  font-weight: bold;
+  color: $primary-color;
+}
+
+body.vertical-menu header {
+  background-color: $body-background;
+
+  a {
+    color: $primary-color;
+  }
+}
+
+body.vertical-menu footer {
+  background-color: $body-background;
+}
+
+body.vertical-menu #content {
+  background-color: $body-background;
+}
+
+#content,
+body:not(.browse) #content {
+  padding: $global-padding;
+}
+
+#user-bar {
+  z-index: 999;
+}
+
+.mare-totals b:first-child {
+  display: block;
+  font-size: 2 * $global-font-size;
+  font-family: $header-font-family;
+}
+
+.mare-totals p {
+  margin-bottom: 0;
+  padding: .5 * $global-padding;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid $body-background;
+  }
+}
+
+.mare-totals,
+.mare-county-schedules h3, 
+.mare-denomination-schedules h3 {
+  @extend table;
+}
+
+.mare-county-schedules h3, 
+.mare-denomination-schedules h3 {
+  font-size: $global-font-size;
+  font-weight: bold;
+  padding: .5 * $global-padding;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.item-set.browse-preview {
+  position: relative;
+  margin-bottom: .5 * $global-margin;
+}
+
+.item-set.browse-preview .resource-image {
+  a,
+  img {
+    width: 100%;
+  }
+}
+
+.browse .resource-list h4 {
+  font-size: $global-font-size;
+  margin: 0;
+  line-height: $paragraph-lineheight;
+}
+
+.has-attachment h4 a:before {
+  content:"\f03e";
+  font-family: "Font Awesome 5 Free";
+  margin-right: .5 * $global-margin;
+}
+
+.browse #content > h2:first-of-type {
+  float: left;
+  margin-bottom: 0;
+}
+
+.browse .resource-list p {
+  margin: 0;
+}
+
+.search-filters .filter {
+  display: inline-flex;
+  margin-bottom: (.5 * $global-margin);
+}
+
+.resource.show .media-render > a:only-child {
+  border: 0;
+  box-shadow: none;
+}
+
+#are-filters {
+  font-size: .875 * $global-font-size;
+  background-color: $body-background;
+  
+  h2 {
+    display: none;
+  }
+  
+  h4 {
+    font-size: $global-font-size;
+    line-height: $paragraph-lineheight;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin-left: 0;
+  }
+  
+  li ul {
+    display: none;
+  }
+  
+  li.collapse ul {
+    display: block;
+  }
+  
+  .filter-select {
+    margin-bottom: $global-margin;
+  }
+  
+  .filter-select:not(:first-child) {
+    padding-left: $global-padding;
+  }
+  
+  .filter-select[data-resource-type="template"],
+  .empty,
+  .filter-data {
+    display: none;
+  }
+  
+  .chosen-select {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  #selected-filters {
+    margin-bottom: $global-margin;
+  }
+  
+  #selected-filters h4 {
+    margin-bottom: $global-margin;
+  }
+  
+  #selected-filters h5 {
+    font-family: $body-font-family;
+    font-weight: normal;
+    font-size: $global-font-size;
+    margin-bottom: 0;
+  }
+
+  #selected-filters li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: (.25 * $global-padding) 0;
+
+    &:first-of-type select {
+      display: none;
+    }
+    
+    &:not(:last-child) {
+      border-bottom: 1px solid $medium-gray;
+    }
+
+    select {
+      font-size: .875 * $global-font-size;
+      height: auto;
+      margin: 0 (.5 * $global-margin) 0 0;
+      padding-left: (.5 * $global-padding);
+    }
+    
+    .filter-link {
+      margin-right: auto;
+    }
+  }
+
+  button.clear-filter {
+    border-radius: $global-padding;
+    padding: 0;
+    font-size: .75 * $global-font-size;
+    width: 1.25rem;
+    height: 1.25rem;    
+    text-align: center;
+    margin-bottom: 0;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: $primary-color;
+  }
+  
+  .chosen-container {
+    font-size: $global-font-size;
+  }
+}
+
+body.locations .property,
+body.denominations .property {
+  display: flex;
+  margin: $global-margin (-.5 * $global-margin);
+}
+
+.inline .property {
+  margin: 0 (-.5 * $global-margin);  
+}
+
+.inline .property dt {
+  text-align: left;
+}
+
+.linked-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.linked-footer .omeka-pagination {
+  margin: $global-margin 0 $global-margin auto;
+}
+
+.linked-resource-property {
+  text-align: left;
+  padding: $global-padding 0;
+}
+
+.resource.show #resource-values {
+  width: 100%;
+}
+
+@include breakpoint(small down) {
+  .home #content .blocks > div {
+    position: relative !important;
+    top: 0 !important;
+  }
+  
+  #blocks {
+    height: auto !important;
+  }
+}

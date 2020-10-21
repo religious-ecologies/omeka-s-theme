@@ -1,0 +1,224 @@
+@include breakpoint(large up) {
+    body {    
+        font-size: 1.25 * $global-font-size;
+    }
+    
+    #user-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2.25rem;
+    }
+    
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: xy-cell-size(2);    
+    }
+    
+    body.denominations.vertical-menu footer,
+    body.locations.vertical-menu footer {
+      margin-left: xy-cell-size(5);
+      background-color: $body-background;
+    }
+    
+    #content,
+    body:not(.browse) #content {
+      padding-left: calc(#{xy-cell-size(2)} + #{$global-padding});
+    }
+    
+    body.home #content,
+    body.denominations #content,
+    body.locations #content,
+    body.item.browse:not(.item-set) #content {
+      padding-left: calc(#{xy-cell-size(5)} + #{$global-margin});
+    }
+    
+    body.user-bar #content {
+      margin-top: 1.5rem;
+    }
+    
+    #home-intro {
+      width: calc(50% - #{2 * $global-padding});
+      background-color: $body-background;
+      position: absolute;
+      top: (-1 * $global-margin);
+      left: calc(-50% + #{2 * $global-padding});
+      bottom: 0;
+      z-index:0;
+      padding: $global-padding (2 * $global-padding);
+      font-size: .875 * $global-font-size;
+    }
+    
+    body.home #blocks > div:not(#home-intro) {
+      width: calc(50% - #{$global-margin});
+      margin-bottom: $global-margin;
+    }
+    
+    #are-filters {
+      @include xy-cell(3, $gutters: 0);
+      position: fixed;
+      top: 0;
+      left: xy-cell-size(2);
+      bottom: 0;
+      z-index:0;
+      padding: (1.25 * $global-padding) $global-padding;
+      overflow-y: scroll;  
+    }
+
+    .browse #content > h2:first-of-type {
+      float: none;
+    }
+
+    .browse .resource-list .item.resource .resource-meta {
+      display: flex;
+      justify-content: flex-start;
+    }
+    
+    .browse .resource-list p {
+      margin: 0 0 0 (.5 * $global-margin);
+    }
+  
+    #user-bar ~ header,
+    #user-bar ~ #content #are-filters {
+      top: 2.25rem;
+    }
+
+    .are-family:not(:last-child) {
+      border-bottom: 1px solid $medium-gray;
+    }
+    
+    .are-family ul {
+      padding: (.5 * $global-padding) $global-padding;
+    }
+    
+    .are-filtered-content .property {
+      margin-bottom: $global-margin;
+      
+      h4 {
+        font-size: $global-font-size;
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+    
+    .are-filtered-content .pagination {
+      display: flex;
+      align-items: center;
+      
+      form {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+      }
+      
+      input {
+        margin: 0;
+      }
+      
+      .page-count,
+      .row-count {
+        margin: 0 #{.5 * $global-margin};
+      }
+      
+      & ~ a {
+        display: flex;
+        align-items: center;
+        margin-bottom: $global-margin;
+      }
+      
+      & ~ a img {
+        height: 3 * $global-padding;
+        width: auto;
+        margin-right: .5 * $global-margin;
+      }
+      
+      .inactive {
+        opacity: .5;
+      }
+      
+      a,
+      .button {
+        color: $white;
+        margin: 0;
+        padding: 0.85em 1em;
+      }
+    }
+    
+    .are-family {
+      padding: 0 $global-padding;
+    }
+        
+    .mare-totals {
+      text-align: center;
+      padding-left: calc(25% - #{$global-padding});
+      width: calc(50% - #{$global-margin});
+      position: relative;
+    }
+    
+    .mare-totals h3 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      width: 50%;
+      background-color: $body-background;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 50%;
+      bottom: 0;
+      margin-bottom: 0;
+      border-right: 1px solid $primary-color;
+    }
+
+    .mare-county-schedules, 
+    .mare-denomination-schedules {
+      width: calc(50% - #{$global-margin});
+    }
+
+    .item-set.browse-preview .resource-meta {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 2 * $global-padding;
+      
+      h4 {
+        font-size: $global-font-size;
+        font-weight: bold;
+        background-color: #fff;
+        
+        a:after {
+          content: "\2192";
+          display: inline-block;
+          margin-left: .5 * $global-margin;
+        }
+        
+        a {
+          padding: (.25 * $global-padding);
+        }
+      }
+    }
+
+    body.locations .property h4,
+    body.denominations .property h4 {
+      @include xy-cell(4);
+      text-transform: none;
+      font-family: $body-font-family;
+    }
+    
+    body.locations .property .values,
+    body.denominations .property .values {
+      @include xy-cell(8);
+    }
+
+    .linked-header .omeka-pagination,
+    .linked-footer .omeka-pagination {
+      width: 50%;
+      justify-content: flex-end;
+      margin-left: auto;
+    }    
+}
