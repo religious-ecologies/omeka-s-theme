@@ -271,7 +271,6 @@ body:not(.browse) #content {
 body.locations .property,
 body.denominations .property {
   display: flex;
-  margin: $global-margin (-.5 * $global-margin);
 }
 
 .inline .property {
@@ -299,6 +298,21 @@ body.denominations .property {
 
 .resource.show #resource-values {
   width: 100%;
+}
+
+.schedule-link {
+  display: block;
+  width: 100%;
+  
+  img {
+    max-height: 3 * $global-padding;
+    width: auto;
+    margin-right: $global-margin;
+  }
+}
+
+.are-filtered-content > dl {
+    margin-top: $global-margin;
 }
 
 @include breakpoint(small down) {

@@ -95,59 +95,6 @@
       padding: (.5 * $global-padding) $global-padding;
     }
     
-    .are-filtered-content .property {
-      margin-bottom: $global-margin;
-      
-      h4 {
-        font-size: $global-font-size;
-        font-weight: bold;
-        margin: 0;
-      }
-    }
-    
-    .are-filtered-content .pagination {
-      display: flex;
-      align-items: center;
-      
-      form {
-        display: flex;
-        align-items: center;
-        margin-right: auto;
-      }
-      
-      input {
-        margin: 0;
-      }
-      
-      .page-count,
-      .row-count {
-        margin: 0 #{.5 * $global-margin};
-      }
-      
-      & ~ a {
-        display: flex;
-        align-items: center;
-        margin-bottom: $global-margin;
-      }
-      
-      & ~ a img {
-        height: 3 * $global-padding;
-        width: auto;
-        margin-right: .5 * $global-margin;
-      }
-      
-      .inactive {
-        opacity: .5;
-      }
-      
-      a,
-      .button {
-        color: $white;
-        margin: 0;
-        padding: 0.85em 1em;
-      }
-    }
-    
     .are-family {
       padding: 0 $global-padding;
     }
@@ -220,5 +167,15 @@
       width: 50%;
       justify-content: flex-end;
       margin-left: auto;
-    }    
+    }
+    
+    .schedule-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .omeka-pagination .button-group {
+        flex-grow: 0;
+    }
 }
