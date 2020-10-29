@@ -129,24 +129,19 @@
 
     .item-set.browse-preview .resource-meta {
       position: absolute;
-      bottom: 0;
-      right: 0;
-      padding: 2 * $global-padding;
-      
-      h4 {
-        font-size: $global-font-size;
-        font-weight: bold;
-        background-color: #fff;
+      bottom: 2 * $global-margin;
+      right: $global-margin;
+      padding: .5 * $global-padding;
+      font-size: $global-font-size;
+      font-weight: bold;
+      font-family: $header-font-family;
+      text-transform: uppercase;
+      background-color: #fff;
         
-        a:after {
-          content: "\2192";
-          display: inline-block;
-          margin-left: .5 * $global-margin;
-        }
-        
-        a {
-          padding: (.25 * $global-padding);
-        }
+      &:after {
+        content: "\2192";
+        display: inline-block;
+        margin-left: .5 * $global-margin;
       }
     }
 

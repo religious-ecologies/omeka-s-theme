@@ -9,10 +9,12 @@ $queryUrl = $this->url(
 <?php
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
+$resourceType = $this->resourceType;
 foreach ($this->resources as $resource):
     $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle();
 ?>
-<div class="<?php echo $this->resourceType; ?> resource browse-preview">
+<?php if ($resourceType == 'item'): ?>
+<div class="<?php echo $resourceType; ?> resource browse-preview">
     <?php if ($thumbnail = $this->thumbnail($resource, 'large')): ?>
     <div class="resource-image">
         <?php echo $resource->linkRaw($thumbnail, null); ?>
@@ -22,6 +24,20 @@ foreach ($this->resources as $resource):
         <h4><?php echo $resource->link($heading); ?></h4>
     </div>
 </div>
+<?php else: ?>
+<div class="<?php echo $resourceType; ?> resource browse-preview">
+    <?php if ($thumbnail = $this->thumbnail($resource, 'large')): ?>
+    <?php $resourceMeta = '<span class="resource-meta">' . $heading . '</span>'; ?>
+    <div class="resource-image">
+        <?php echo $resource->linkRaw($thumbnail . $resourceMeta, null, ['class' => 'item-set-link']); ?>
+    </div>
+    <?php else: ?>
+    <div class="resource-meta">
+        <h4><?php echo $resource->link($heading); ?></h4>
+    </div>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
 
 <?php endforeach; ?>
 
