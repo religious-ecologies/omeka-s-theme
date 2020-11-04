@@ -29,6 +29,13 @@ tbody {
   border-bottom: 1px solid $primary-color;
 }
 
+.screen-reader-text {
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  position: absolute;
+  height: 1px;
+  width: 1px; 
+}
 
 header .vertical.menu {
   font-family: $secondary-header-font-family;
@@ -129,16 +136,23 @@ body:not(.browse) #content {
   }
 }
 
-.browse .resource-list h4 {
-  font-size: $global-font-size;
-  margin: 0;
-  line-height: $paragraph-lineheight;
+.resource-list .resource-meta > a:first-child {
+  display: flex;
 }
 
-.has-attachment h4 a:before {
-  content:"\f03e";
+.resource-list .resource-meta .resource-title {
+  order: 2;
+}
+
+.icon-image:before {
+  content: "\f03e";
   font-family: "Font Awesome 5 Free";
   margin-right: .5 * $global-margin;
+}
+
+.icon-key {
+  width: 100%;
+  margin: $global-margin $global-margin (-.5 * $global-margin);
 }
 
 .browse #content > h2:first-of-type {
