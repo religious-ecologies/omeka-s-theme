@@ -152,7 +152,8 @@ body:not(.browse) #content {
 
 .icon-key {
   width: 100%;
-  margin: $global-margin $global-margin (-.5 * $global-margin);
+  margin: 0 0 $global-margin 0;
+  order: 5;
 }
 
 .browse #content > h2:first-of-type {

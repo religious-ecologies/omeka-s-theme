@@ -164,6 +164,24 @@
       margin-left: auto;
     }
     
+    .browse-controls {
+      padding: 0 $global-padding;
+    }
+    
+    .browse-controls .omeka-pagination,
+    .browse-controls .sorting {
+      width: 40%;
+      margin: 0;
+    }
+    
+    .browse-controls .advanced-search {
+      width: 20%;
+    }
+    
+    .browse-controls .icon-key {
+      margin: $global-margin 0 (-.5 * $global-margin);
+    }
+    
     .schedule-list {
         display: flex;
         flex-wrap: wrap;
