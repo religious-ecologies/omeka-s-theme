@@ -183,9 +183,11 @@ body:not(.browse) #content {
     display: none;
   }
   
-  h4 {
+  legend {
     font-size: $global-font-size;
     line-height: $paragraph-lineheight;
+    font-family: $header-font-family;
+    text-transform: uppercase;
     font-weight: bold;
     margin-bottom: 0;
   }
