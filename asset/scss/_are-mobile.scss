@@ -332,6 +332,10 @@ body.denominations .property {
     margin-top: $global-margin;
 }
 
+.chosen-container-single .chosen-default {
+    color: $body-font-color !important; 
+}
+
 @include breakpoint(small down) {
   .home #content .blocks > div {
     position: relative !important;
