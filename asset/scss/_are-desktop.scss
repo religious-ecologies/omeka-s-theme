@@ -170,12 +170,13 @@
     
     .browse-controls .omeka-pagination,
     .browse-controls .sorting {
-      width: 40%;
+      max-width: 40%;
+      width: auto;
       margin: 0;
     }
     
     .browse-controls .advanced-search {
-      width: 20%;
+      width: auto;
     }
     
     .browse-controls .icon-key {
