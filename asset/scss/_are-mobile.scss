@@ -94,6 +94,33 @@ body:not(.browse) #content {
   z-index: 999;
 }
 
+#home-intro h2 {
+  @extend h3;
+}
+
+.mare-totals {
+  text-align: center;
+  padding-left: calc(25% - #{$global-padding});
+  width: calc(50% - #{$global-margin});
+  position: relative;
+}
+
+.mare-totals h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 50%;
+  background-color: $body-background;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 50%;
+  bottom: 0;
+  margin-bottom: 0;
+  border-right: 1px solid $primary-color;
+}
+
 .mare-totals b:first-child {
   display: block;
   font-size: 2 * $global-font-size;
@@ -135,6 +162,25 @@ body:not(.browse) #content {
     width: 100%;
   }
 }
+
+.item-set.browse-preview .resource-meta {
+  position: absolute;
+  bottom: 2 * $global-margin;
+  right: $global-margin;
+  padding: .5 * $global-padding;
+  font-size: $global-font-size;
+  font-weight: bold;
+  font-family: $header-font-family;
+  text-transform: uppercase;
+  background-color: #fff;
+    
+  &:after {
+    content: "\2192";
+    display: inline-block;
+    margin-left: .5 * $global-margin;
+  }
+}
+
 
 .resource-list .resource-meta > a:first-child {
   display: flex;

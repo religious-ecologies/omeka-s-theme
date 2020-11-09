@@ -5,7 +5,8 @@
           // options
           itemSelector: '#blocks > div:not(#home-intro)',
           columnWidth: '#blocks > div:not(#home-intro)',
-          gutter: 16
+          gutter: 16,
+          stamp: '#home-intro'
         });
       }
     });      

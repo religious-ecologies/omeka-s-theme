@@ -42,14 +42,14 @@
     }
     
     #home-intro {
-      width: calc(50% - #{2 * $global-padding});
+      width: 50%;
       background-color: $body-background;
       position: absolute;
       top: (-1 * $global-margin);
-      left: calc(-50% + #{2 * $global-padding});
+      left: -50%;
       bottom: 0;
       z-index:0;
-      padding: $global-padding (2 * $global-padding);
+      padding: $global-padding;
       font-size: .875 * $global-font-size;
     }
     
@@ -98,51 +98,10 @@
     .are-family {
       padding: 0 $global-padding;
     }
-        
-    .mare-totals {
-      text-align: center;
-      padding-left: calc(25% - #{$global-padding});
-      width: calc(50% - #{$global-margin});
-      position: relative;
-    }
-    
-    .mare-totals h3 {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      align-content: center;
-      width: 50%;
-      background-color: $body-background;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 50%;
-      bottom: 0;
-      margin-bottom: 0;
-      border-right: 1px solid $primary-color;
-    }
 
     .mare-county-schedules, 
     .mare-denomination-schedules {
       width: calc(50% - #{$global-margin});
-    }
-
-    .item-set.browse-preview .resource-meta {
-      position: absolute;
-      bottom: 2 * $global-margin;
-      right: $global-margin;
-      padding: .5 * $global-padding;
-      font-size: $global-font-size;
-      font-weight: bold;
-      font-family: $header-font-family;
-      text-transform: uppercase;
-      background-color: #fff;
-        
-      &:after {
-        content: "\2192";
-        display: inline-block;
-        margin-left: .5 * $global-margin;
-      }
     }
 
     body.locations .property h4,
@@ -191,5 +150,9 @@
     
     .omeka-pagination .button-group {
         flex-grow: 0;
+    }
+    
+    .blocks {
+        margin: 0 $global-margin;
     }
 }
