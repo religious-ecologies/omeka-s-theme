@@ -29,12 +29,20 @@ tbody {
   border-bottom: 1px solid $primary-color;
 }
 
+:focus {
+  border: 1px dotted $primary-color;
+}
+
 .screen-reader-text {
   clip: rect(0 0 0 0);
   overflow: hidden;
   position: absolute;
   height: 1px;
   width: 1px; 
+}
+
+.site-title {
+  display: block;
 }
 
 header .vertical.menu {
@@ -219,6 +227,10 @@ body:not(.browse) #content {
 .resource.show .media-render > a:only-child {
   border: 0;
   box-shadow: none;
+}
+
+.item-set #are-filters {
+  display: none;
 }
 
 #are-filters {

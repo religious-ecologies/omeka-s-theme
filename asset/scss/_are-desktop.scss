@@ -53,6 +53,10 @@
       font-size: .875 * $global-font-size;
     }
     
+    body.home #blocks {
+      columns: 2;
+    }
+    
     body.home #blocks > div:not(#home-intro) {
       width: calc(50% - #{$global-margin});
       margin-bottom: $global-margin;

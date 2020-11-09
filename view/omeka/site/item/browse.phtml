@@ -41,8 +41,10 @@ $sortHeadings = [
 <?php $this->trigger('view.browse.before'); ?>
 
 <?php if ($itemSetShow): ?>
-    <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
-    <h3><?php echo $translate('Item set'); ?></h3>
+    <div class="resource-title">
+      <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
+      <h3 class="label"><?php echo $translate('Item set'); ?></h3>
+    </div>
     <div class="metadata">
         <?php echo $itemSet->displayValues(); ?>
     </div>
@@ -82,8 +84,9 @@ foreach ($items as $item):
     $attachedMedia = count($item->media());
 ?>  
     <li class="item resource <?php echo ($isGrid) ? '' : 'media-object'; ?>">
-        <div class="resource-meta <?php echo ($isGrid) ? '' : 'media-object-section'; ?> <?php echo ($attachedMedia > 0) ? 'has-attachment' : ''; ?>">
-            <?php echo $item->linkRaw(sprintf('<span class="resource-title">%s</span> %s', $heading, $hasAttachmentIcon)); ?>
+        <div class="resource-meta <?php echo ($isGrid) ? '' : 'media-object-section'; ?>">
+            <?php $hasAttachment = ($attachedMedia > 0) ? $hasAttachmentIcon : ''; ?>
+            <?php echo $item->linkRaw(sprintf('<span class="resource-title">%s</span> %s', $heading, $hasAttachment)); ?>
             <?php if ($body): ?>
             <div class="description">
               <?php if ($bodyTerm == 'mare:county'): ?>
