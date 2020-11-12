@@ -394,6 +394,18 @@ body.denominations .property {
     color: $body-font-color !important; 
 }
 
+
+#denomination-select-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: $global-margin;
+}
+
+#denomination-select {
+  width: 70%;
+  margin-left: .5 * $global-margin;
+}
+
 @include breakpoint(small down) {
   .home #content .blocks > div {
     position: relative !important;
