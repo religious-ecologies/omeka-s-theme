@@ -21,19 +21,30 @@
     
     body.denominations.vertical-menu footer,
     body.locations.vertical-menu footer {
-      margin-left: xy-cell-size(5);
       background-color: $body-background;
     }
     
     #content,
-    body:not(.browse) #content {
+    body:not(.browse) #content,
+    footer,
+    body:not(.browse) footer {
       padding-left: calc(#{xy-cell-size(2)} + #{$global-padding});
+      margin-left: 0 !important; 
+      width: auto !important;
+    }
+    
+    body.vertical-menu #content {
+      min-height: 80vh;
     }
     
     body.home #content,
     body.denominations #content,
     body.locations #content,
-    body.item.browse:not(.item-set) #content {
+    body.item.browse:not(.item-set) #content,
+    body.home footer,
+    body.denominations footer,
+    body.locations footer,
+    body.item.browse:not(.item-set) footer {
       padding-left: calc(#{xy-cell-size(5)} + #{$global-margin});
     }
     
