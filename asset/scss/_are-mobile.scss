@@ -189,7 +189,6 @@ body:not(.browse) #content {
   }
 }
 
-
 .resource-list .resource-meta > a:first-child {
   display: flex;
 }
@@ -373,6 +372,24 @@ body.denominations .property {
 
 .resource.show #resource-values {
   width: 100%;
+  max-width: 900px;
+  
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  
+  dt {
+    @include xy-cell-size(3);
+    break-before: always;
+    margin-top: $global-margin;
+  }
+  
+  dd {
+    @include xy-cell-size(9);
+    align-self: flex-end;
+  }
 }
 
 .schedule-link {

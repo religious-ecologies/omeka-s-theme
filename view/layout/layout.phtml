@@ -6,8 +6,8 @@ $this->headScript()->setAllowArbitraryAttributes(true);
 $this->headMeta()->setCharset('utf-8');
 $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
-$this->headLink(['rel' => 'preload', 'as' => 'style', 'href' => $this->assetUrl('css/iconfonts.css', 'Omeka')], 'PREPEND');
-$this->headLink()->prependStylesheet($this->assetUrl('css/are.css'));    
+$this->headLink(['rel' => 'preload', 'as' => 'style', 'media' => 'screen', 'href' => $this->assetUrl('css/iconfonts.css', 'Omeka')], 'PREPEND');
+$this->headLink()->prependStylesheet($this->assetUrl('css/are.css'), 'screen');    
 $this->headScript()->prependFile('//cdn.jsdelivr.net/npm/foundation-sites@6.5.3/dist/js/foundation.min.js', 'text/javascript', [
   'integrity' => 'sha256-/PFxCnsMh+nTuM0k3VJCRch1gwnCfKjaP8rJNq5SoBg= sha384-9ksAFjQjZnpqt6VtpjMjlp2S0qrGbcwF/rvrLUg2vciMhwc1UJJeAAOLuJ96w+Nj sha512-UMSn6RHqqJeJcIfV1eS2tPKCjzaHkU/KqgAnQ7Nzn0mLicFxaVhm9vq7zG5+0LALt15j1ljlg8Fp9PT1VGNmDw==',
   'crossorigin' => 'anonymous'
