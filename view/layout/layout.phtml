@@ -8,13 +8,10 @@ $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1')
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
 $this->headLink(['rel' => 'preload', 'as' => 'style', 'href' => $this->assetUrl('css/iconfonts.css', 'Omeka')], 'PREPEND');
 $this->headLink()->prependStylesheet($this->assetUrl('css/are.css'));    
-$this->headScript()->prependFile('https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js');
-$this->headScript()->prependFile($this->assetUrl('js/are.js'));
 $this->headScript()->prependFile('//cdn.jsdelivr.net/npm/foundation-sites@6.5.3/dist/js/foundation.min.js', 'text/javascript', [
   'integrity' => 'sha256-/PFxCnsMh+nTuM0k3VJCRch1gwnCfKjaP8rJNq5SoBg= sha384-9ksAFjQjZnpqt6VtpjMjlp2S0qrGbcwF/rvrLUg2vciMhwc1UJJeAAOLuJ96w+Nj sha512-UMSn6RHqqJeJcIfV1eS2tPKCjzaHkU/KqgAnQ7Nzn0mLicFxaVhm9vq7zG5+0LALt15j1ljlg8Fp9PT1VGNmDw==',
   'crossorigin' => 'anonymous'
 ]);
-$this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'), 'text/javascript', ['rel' => 'preload', 'as' => 'script']);
 $this->trigger('view.layout');
 $title = $this->pageTitle($site->title());
