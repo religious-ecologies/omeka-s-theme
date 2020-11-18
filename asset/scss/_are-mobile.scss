@@ -347,10 +347,6 @@ body.denominations .property {
   display: flex;
 }
 
-.inline .property {
-  margin: 0 (-.5 * $global-margin);  
-}
-
 .inline .property dt {
   text-align: left;
 }
@@ -377,18 +373,21 @@ body.denominations .property {
   dl {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
   }
   
   dt {
-    @include xy-cell-size(3);
+    @include xy-cell-size(4);
     break-before: always;
     margin-top: $global-margin;
   }
   
   dd {
-    @include xy-cell-size(9);
-    align-self: flex-end;
+    @include xy-cell-size(8);
+    margin-left: auto;
+  }
+  
+  dt + dd {
+    margin-top: $global-margin;
   }
 }
 
