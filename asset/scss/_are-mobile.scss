@@ -106,11 +106,18 @@ body:not(.browse) #content {
   @extend h3;
 }
 
+.home .resource-image img {
+  margin-bottom: 0;
+}
+
 .mare-totals {
   text-align: center;
-  padding-left: calc(25% - #{$global-padding});
-  width: calc(50% - #{$global-margin});
+  padding-left: 25%;
   position: relative;
+  font-size: .875 * $global-font-size;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .mare-totals h3 {
@@ -138,6 +145,7 @@ body:not(.browse) #content {
 .mare-totals p {
   margin-bottom: 0;
   padding: .5 * $global-padding;
+  width: 100%;
   
   &:not(:last-child) {
     border-bottom: 1px solid $body-background;
@@ -186,6 +194,24 @@ body:not(.browse) #content {
     content: "\2192";
     display: inline-block;
     margin-left: .5 * $global-margin;
+  }
+}
+
+@media screen and (max-width:1300px) {
+  body.home #blocks > div:not(#home-intro) {
+    width: 100% !important;
+  }
+  
+  .mare-totals {
+    padding-left: 50%;
+  }
+  
+  #home-intro {
+    width: xy-cell-size(4) !important;
+  }
+  
+  body.home #content {
+    padding-left: calc(#{xy-cell-size(6)} + #{$global-margin}) !important;
   }
 }
 
