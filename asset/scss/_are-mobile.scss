@@ -257,6 +257,34 @@ body:not(.browse) #content {
   li ul {
     display: none;
   }
+
+  .are-family {
+    padding: (.25 * $global-padding) $global-padding;
+  }
+
+  .are-family ul {
+    padding: (.5 * $global-padding) $global-padding 0;
+  }
+  
+  & > ul > li > a {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  & > ul > li > a:after {
+    content: "\f0da";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-left: .5 * $global-margin;
+  }
+  
+  li.collapse > a {
+    font-weight: bold;
+  }
+  
+  li.collapse > a:after {
+    content: "\f0d7";
+  }
   
   li.collapse ul {
     display: block;
