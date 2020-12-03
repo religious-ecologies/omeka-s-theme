@@ -52,7 +52,7 @@
     }
     
     #home-intro {
-      width: xy-cell-size(3);
+      width: xy-cell-size(3) !important;
       background-color: $body-background;
       position: absolute;
       top: (-1 * $global-margin);
@@ -72,6 +72,14 @@
     body.home #blocks > div:not(#home-intro) {
       margin-bottom: $global-margin;
       width: calc(50% - #{.5 * $global-margin});
+    }
+
+    body.home #content {
+      padding-left: calc(#{xy-cell-size(5)} + #{$global-margin}) !important;
+    }
+    
+    .mare-totals {
+      padding-left: 25%;
     }
     
     #are-filters {
