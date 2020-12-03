@@ -82,6 +82,14 @@
       padding-left: 25%;
     }
     
+    .are-filters.button {
+      display: none;
+    }
+    
+    .off-canvas-content.has-reveal-right {
+      margin-right: 0;
+    }
+    
     #are-filters {
       @include xy-cell(3, $gutters: 0);
       position: fixed;
