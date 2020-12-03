@@ -218,7 +218,7 @@ body:not(.browse) #content {
   }
 }
 
-@media screen and (min-width: 1000px) and (max-width:1300px) {
+@media screen and (min-width: 1024px) and (max-width:1300px) {
   body.home #blocks > div:not(#home-intro) {
     width: 100%;
   }
