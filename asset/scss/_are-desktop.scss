@@ -174,4 +174,19 @@
     .blocks {
         margin: 0 $global-margin;
     }
+    
+    .leaflet-popup-content ul {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+    
+    .leaflet-popup-content li {  
+      border-bottom: 1px solid $gray;
+      padding: .25 * $global-padding;
+    }
+    
+    .leaflet-popup-content li:last-of-type {
+      border-bottom-color: transparent;
+    }
 }
