@@ -83,6 +83,10 @@ header .vertical.menu {
     padding: .5 * $global-padding;
     margin: (.25 * $global-margin) 0;
   }
+  
+  body.home #blocks > .resource .item-set-link{
+    max-height: 12 * $global-padding;
+  }
 }
 
 .title-bar {

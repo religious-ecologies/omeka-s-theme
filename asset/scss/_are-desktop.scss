@@ -72,6 +72,11 @@
     body.home #blocks > div:not(#home-intro) {
       margin-bottom: $global-margin;
       width: calc(50% - #{.5 * $global-margin});
+      
+      &:nth-child(6) {
+        width: 100%;
+        max-height: 12rem;
+      }
     }
 
     body.home #content {
