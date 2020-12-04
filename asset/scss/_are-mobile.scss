@@ -49,6 +49,10 @@ tbody {
   display: block;
 }
 
+.button-group {
+  flex-wrap: nowrap;
+}
+
 header .vertical.menu {
   font-family: $secondary-header-font-family;
   
@@ -58,6 +62,21 @@ header .vertical.menu {
     &:not(:last-child) {
       border-bottom: 1px solid $medium-gray;
     }
+  }
+}
+
+@include breakpoint(medium only) {
+  #search-form {
+    display: block;
+  }
+  
+  #search-form input {
+    width: 100%;
+  }
+  
+  #search-form button {
+    padding: .5 * $global-padding;
+    margin: (.25 * $global-margin) 0;
   }
 }
 
@@ -233,7 +252,7 @@ body:not(.browse) #content {
   
   #home-intro {
     width: xy-cell-size(4);
-  }
+  }  
 }
 
 .resource-list .resource-meta > a:first-child {
@@ -434,6 +453,12 @@ body.denominations .property {
 
 .linked-footer .omeka-pagination {
   margin: $global-margin 0 $global-margin auto;
+}
+
+@include breakpoint(medium only) {
+  .omeka-pagination {
+    width: 100%;
+  }
 }
 
 .linked-resource-property {
