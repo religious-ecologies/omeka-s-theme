@@ -53,6 +53,11 @@ tbody {
   flex-wrap: nowrap;
 }
 
+.inactive.button {
+  cursor: default;
+  background-color: $gray;
+}
+
 header .vertical.menu {
   font-family: $secondary-header-font-family;
   
@@ -212,6 +217,7 @@ body:not(.browse) #content {
   font-family: $header-font-family;
   text-transform: uppercase;
   background-color: #fff;
+  max-width: calc(100% - 2rem);
     
   &:after {
     content: "\2192";
