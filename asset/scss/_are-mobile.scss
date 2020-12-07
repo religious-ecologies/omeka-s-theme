@@ -247,6 +247,7 @@ body:not(.browse) #content {
   margin-bottom: .5 * $global-margin;
   background-size: cover !important;
   background-position: center !important;
+  overflow: hidden;
   
   img {
     border: 0;
@@ -458,6 +459,12 @@ body.denominations .property {
 
 .inline .property dt {
   text-align: left;
+}
+
+.value .resource-link img {
+  max-height: 3 * $global-padding;
+  height: auto;
+  margin-right: $global-margin;
 }
 
 .linked-header {
