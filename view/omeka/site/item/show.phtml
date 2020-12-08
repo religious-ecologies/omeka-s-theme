@@ -17,7 +17,12 @@ $showLayout = $this->themeSetting('show_layout');
 <?php if ($embedMedia && $itemMedia): ?>
 <div class="media-embeds">
 <?php foreach ($itemMedia as $media):
-    echo $media->render();
+    echo $media->render(
+      [
+        'thumbnailAttribs' => [
+           'alt' => 'Scan of ' . $item->displayTitle(),
+        ],
+    ]);
 endforeach;
 ?>
 </div>
