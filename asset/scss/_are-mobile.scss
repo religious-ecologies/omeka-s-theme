@@ -35,7 +35,7 @@ tbody {
 }
 
 :focus {
-  border: 1px dotted $primary-color;
+  box-shadow: 0 0 0px 2px white, 0 0 0 5px lightblue;
 }
 
 .screen-reader-text {
@@ -248,6 +248,13 @@ body:not(.browse) #content {
   background-size: cover !important;
   background-position: center !important;
   overflow: hidden;
+  
+  &:focus {
+    box-shadow: 
+      5px 5px 0 $primary-color,
+      0 0 0px 2px white, 
+      0 0 2px 7px lightblue;
+  }
   
   img {
     border: 0;
