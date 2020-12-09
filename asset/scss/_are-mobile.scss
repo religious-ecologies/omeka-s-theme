@@ -38,6 +38,16 @@ tbody {
   box-shadow: 0 0 0px 2px white, 0 0 0 5px lightblue;
 }
 
+.skip-link {
+  height: 0;
+  overflow: hidden;
+  display: block;
+  
+  &:focus {
+    height: auto;
+  }
+}
+
 .screen-reader-text {
   clip: rect(0 0 0 0);
   overflow: hidden;

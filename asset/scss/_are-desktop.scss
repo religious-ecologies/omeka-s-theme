@@ -47,6 +47,31 @@
       padding-left: calc(#{xy-cell-size(5)} + #{$global-margin});
     }
     
+    
+    #content-start {
+      height: 0;
+      overflow: hidden;
+      box-sizing: content-box;
+      padding: 0;
+      display: inline-block;
+      position: absolute;
+      
+      &:focus {
+        height: auto;
+        padding: .25 * $global-padding;
+        box-sizing: border-box;
+        position: static;
+      }
+    }
+    
+    .page #content-start,
+    .browse #content-start {
+      position: absolute;
+      top: 0;
+      left: calc(#{xy-cell-size(2)} + #{$global-margin});
+      z-index: 1000;
+    }
+    
     body.user-bar #content {
       margin-top: 1.5rem;
     }
@@ -61,6 +86,10 @@
       z-index:0;
       padding: $global-padding;
       font-size: .875 * $global-font-size;
+    }
+    
+    #content-start:focus ~ #blocks #home-intro {
+      top: $global-margin;
     }
     
     body.home #blocks {
@@ -106,6 +135,11 @@
       overflow-y: scroll;  
     }
 
+    #content-start:focus ~ #blocks #are-filters,
+    #content-start:focus ~ #are-filters {
+      padding-top: 2.75 * $global-padding;
+    }
+  
     .browse #content > h2:first-of-type {
       float: none;
     }
