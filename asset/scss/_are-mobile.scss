@@ -469,9 +469,7 @@ body.denominations .property {
 }
 
 .value .resource-link img {
-  max-height: 3 * $global-padding;
-  height: auto;
-  margin-right: $global-margin;
+  display: none;
 }
 
 .linked-header {
