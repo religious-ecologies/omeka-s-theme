@@ -559,6 +559,10 @@ body.denominations .property {
   margin-left: .5 * $global-margin;
 }
 
+.leaflet-popup-content {
+  width: 400px !important;
+}
+
 @include breakpoint(small down) {
   .home #content .blocks > div {
     position: relative !important;
