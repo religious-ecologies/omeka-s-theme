@@ -27,7 +27,7 @@
     "gulp-load-plugins": "^2.0.4",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.1.0",
-    "minimist": "^1.2.3"
+    "minimist": "^1.2.6"
   },
   "browserslist": [
     "last 2 versions",
